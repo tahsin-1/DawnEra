@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Dawn Era</title>
+<meta name="description" content="Get in touch with Dawn Era — WhatsApp us directly or join the early access list.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#10192B">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dawn Era">
+<meta property="og:title" content="Contact — Dawn Era">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dawn-navy: #10192B; --dawn-plum: #4A3B6B; --dawn-coral: #E8623F;
+    --dawn-gold: #E8B84B; --dawn-cream: #F5EFE6; --dawn-ink: #2A2118;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--dawn-cream); color: var(--dawn-ink); line-height: 1.6; }
+  .display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.03em; }
+  .mono { font-family: 'Space Mono', monospace; }
+  a { color: inherit; text-decoration: none; }
+
+  .nav {
+    display: flex; justify-content: space-between; align-items: center; padding: 24px 5%;
+    background: var(--dawn-navy);
+  }
+  .nav__logo { font-size: 22px; letter-spacing: 0.08em; color: var(--dawn-cream); }
+  .nav__links { display: flex; gap: 32px; list-style: none; }
+  .nav__links a { font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--dawn-cream); opacity: 0.85; transition: opacity 0.2s; }
+  .nav__links a.is-active, .nav__links a:hover { opacity: 1; }
+  .nav__links a:focus-visible { opacity: 1; outline: 1px solid var(--dawn-gold); outline-offset: 4px; }
+
+  .page-hero { background: var(--dawn-navy); padding: 40px 5% 80px; text-align: center; }
+  .page-hero__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-gold); }
+  .page-hero__title { font-size: clamp(40px, 7vw, 72px); color: var(--dawn-cream); margin-top: 10px; }
+  .page-hero__sub { color: var(--dawn-cream); opacity: 0.75; max-width: 420px; margin: 16px auto 0; font-size: 15px; }
+
+  .contact-grid { max-width: 900px; margin: 0 auto; padding: 90px 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .contact-card {
+    border: 1px solid rgba(42, 33, 24, 0.15); border-radius: 8px; padding: 40px 32px;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .contact-card:hover { transform: translateY(-6px); border-color: var(--dawn-coral); box-shadow: 0 14px 28px rgba(16,25,43,0.1); }
+  .contact-card__icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .contact-card--wa .contact-card__icon { background: #25D366; }
+  .contact-card--mail .contact-card__icon { background: var(--dawn-coral); }
+  .contact-card__title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.02em; }
+  .contact-card__desc { font-size: 14px; opacity: 0.7; margin-top: 8px; margin-bottom: 24px; }
+
+  .btn {
+    display: inline-block; padding: 14px 30px; font-family: 'Inter', sans-serif; font-size: 13px;
+    letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; border-radius: 2px; border: none;
+    cursor: pointer; transition: transform 0.2s, background 0.2s;
+  }
+  .btn--solid { background: var(--dawn-coral); color: var(--dawn-navy); }
+  .btn--solid:hover, .btn--solid:focus-visible { background: var(--dawn-gold); transform: translateY(-2px); }
+
+  .signup { padding: 0 5% 100px; text-align: center; }
+  .signup__title { font-size: clamp(28px, 4.5vw, 42px); }
+  .signup__sub { opacity: 0.7; margin-top: 10px; }
+  .signup__form { display: flex; justify-content: center; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+  .signup__form input {
+    padding: 14px 18px; border: 1px solid rgba(42, 33, 24, 0.25); background: transparent;
+    font-family: 'Inter', sans-serif; font-size: 14px; min-width: 260px; border-radius: 2px;
+  }
+  .signup__form input:focus-visible { outline: 2px solid var(--dawn-coral); outline-offset: 2px; }
+
+  .footer { background: var(--dawn-navy); color: var(--dawn-cream); padding: 48px 5% 32px; text-align: center; }
+  .footer__logo { font-size: 20px; letter-spacing: 0.08em; }
+  .footer__tagline { font-size: 11px; letter-spacing: 0.15em; color: var(--dawn-gold); text-transform: uppercase; margin-top: 8px; }
+  .footer__meta { font-size: 12px; opacity: 0.5; margin-top: 24px; }
+
+  .whatsapp-btn {
+    position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; background: #25D366;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.28); z-index: 100; transition: transform 0.2s;
+  }
+  .whatsapp-btn:hover, .whatsapp-btn:focus-visible { transform: scale(1.08); outline: 2px solid var(--dawn-navy); outline-offset: 3px; }
+
+  .reveal { opacity: 1; }
+  .js-ready .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+  .js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .js-ready .reveal { opacity: 1; transform: none; transition: none; } }
+
+  @media (max-width: 640px) {
+    .nav__links { gap: 16px; }
+    .nav__links a { font-size: 11px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .signup__form { flex-direction: column; align-items: center; }
+    .signup__form input { width: 100%; max-width: 320px; }
+    .whatsapp-btn { width: 50px; height: 50px; bottom: 16px; right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav__logo display">DAWN ERA</a>
+  <ul class="nav__links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="contact.html" class="is-active">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <p class="page-hero__eyebrow mono">Reach out</p>
+  <h1 class="page-hero__title display">Let's Talk</h1>
+  <p class="page-hero__sub">Questions about Drop 01, sizing, or just want to say hi — pick whatever's easiest.</p>
+</div>
+
+<div class="contact-grid">
+  <div class="contact-card contact-card--wa reveal">
+    <div class="contact-card__icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+    </div>
+    <p class="contact-card__title">WhatsApp</p>
+    <p class="contact-card__desc">Fastest way to reach us — usually replies within a few hours.</p>
+    <a href="https://wa.me/8801997307069?text=Hi%20Dawn%20Era!" target="_blank" rel="noopener" class="btn btn--solid">Message us</a>
+  </div>
+  <div class="contact-card contact-card--mail reveal" style="transition-delay:0.1s">
+    <div class="contact-card__icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+    </div>
+    <p class="contact-card__title">Instagram</p>
+    <p class="contact-card__desc">Follow along for behind-the-scenes and Drop 01 updates.</p>
+    <a href="#" class="btn btn--solid">@dawnera</a>
+  </div>
+</div>
+
+<div class="signup">
+  <h2 class="signup__title display reveal">First light gets first access</h2>
+  <p class="signup__sub reveal" style="transition-delay:0.08s">Join the list. Be first to shop Drop 01.</p>
+  <form class="signup__form reveal" style="transition-delay:0.16s" onsubmit="return false;">
+    <input type="email" placeholder="you@email.com" aria-label="Email address" required>
+    <button type="submit" class="btn btn--solid">Notify me</button>
+  </form>
+</div>
+
+<footer class="footer">
+  <p class="footer__logo display">DAWN ERA</p>
+  <p class="footer__tagline mono">Wear the dawn</p>
+  <p class="footer__meta">© 2026 Dawn Era. All rights reserved.</p>
+</footer>
+
+<a class="whatsapp-btn" href="https://wa.me/8801997307069?text=Hi%20Dawn%20Era!%20I'm%20interested%20in%20your%20pieces." target="_blank" rel="noopener" aria-label="Chat with Dawn Era on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+  </svg>
+</a>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  root.classList.add('js-ready');
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reveals = document.querySelectorAll('.reveal');
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(function (el) { observer.observe(el); });
+  }
+})();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
