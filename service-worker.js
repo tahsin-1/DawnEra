@@ -1,4 +1,4 @@
-const CACHE_NAME = "dawnera-cache-v1";
+const CACHE_NAME = "dawnera-cache-v2";
 
 const PRECACHE_URLS = [
   "/index.html",
@@ -7,7 +7,10 @@ const PRECACHE_URLS = [
   "/contact.html",
   "/manifest.json",
   "/icons/icon-192.png",
-  "/icons/icon-512.png"
+  "/icons/icon-512.png",
+  "/assets/css/style.css",
+  "/assets/js/nav.js",
+  "/assets/js/chat-widget.js"
 ];
 
 // Install: pre-cache the core pages

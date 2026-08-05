@@ -1,0 +1,564 @@
+/* ==========================================================================
+   DAWN ERA — Shared Stylesheet
+   ==========================================================================
+   This file was consolidated from four near-duplicate <style> blocks
+   (index/shop/story/contact) into one shared file. Nothing here changes
+   the brand's look — same colors, same fonts, same components. What
+   changed is: (1) it now lives in one place instead of four, and
+   (2) a mobile-first responsive layer was added/fixed throughout.
+   Search "RESPONSIVE FIX" comments for the specific improvements.
+   ========================================================================== */
+
+/* ---------- Theme tokens (unchanged) ---------- */
+:root, [data-theme="light"] {
+  --dawn-page: #F5EFE6; --dawn-navy: #10192B; --dawn-plum: #4A3B6B;
+  --dawn-coral: #E8623F; --dawn-gold: #E8B84B; --dawn-cream: #F5EFE6; --dawn-ink: #2A2118;
+  --dawn-border: rgba(42,33,24,0.15); --dawn-border-2: rgba(42,33,24,0.25); --dawn-glass: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] {
+  --dawn-page: #0D0D0E; --dawn-navy: #1A1A1C; --dawn-plum: #2E2A30;
+  --dawn-coral: #FF7A52; --dawn-gold: #F5C563; --dawn-cream: #EDEBE7; --dawn-ink: #EDEBE7;
+  --dawn-border: rgba(255,255,255,0.12); --dawn-border-2: rgba(255,255,255,0.22); --dawn-glass: rgba(255,255,255,0.06);
+}
+[data-theme="golden"] {
+  --dawn-page: #FDF1E4; --dawn-navy: #5C3521; --dawn-plum: #C9702C;
+  --dawn-coral: #E8894A; --dawn-gold: #F0C674; --dawn-cream: #FDF1E4; --dawn-ink: #4A3221;
+  --dawn-border: rgba(74,50,33,0.18); --dawn-border-2: rgba(74,50,33,0.28); --dawn-glass: rgba(255,255,255,0.18);
+}
+[data-theme="luxury"] {
+  --dawn-page: #0A0A0A; --dawn-navy: #141210; --dawn-plum: #1F1B14;
+  --dawn-coral: #D4AF37; --dawn-gold: #F0D580; --dawn-cream: #EAE6DD; --dawn-ink: #EAE6DD;
+  --dawn-border: rgba(212,175,55,0.25); --dawn-border-2: rgba(212,175,55,0.4); --dawn-glass: rgba(212,175,55,0.08);
+}
+[data-theme="minimal"] {
+  --dawn-page: #FAFAF9; --dawn-navy: #1C1C1C; --dawn-plum: #333333;
+  --dawn-coral: #1C1C1C; --dawn-gold: #666666; --dawn-cream: #FAFAF9; --dawn-ink: #1C1C1C;
+  --dawn-border: rgba(0,0,0,0.1); --dawn-border-2: rgba(0,0,0,0.18); --dawn-glass: rgba(0,0,0,0.04);
+}
+[data-theme="cyber"] {
+  --dawn-page: #0D0817; --dawn-navy: #150F26; --dawn-plum: #2D1B4E;
+  --dawn-coral: #00E5FF; --dawn-gold: #FF2E9A; --dawn-cream: #E8E3FF; --dawn-ink: #E8E3FF;
+  --dawn-border: rgba(0,229,255,0.25); --dawn-border-2: rgba(255,46,154,0.3); --dawn-glass: rgba(0,229,255,0.07);
+}
+
+/* RESPONSIVE FIX: layout tokens used across breakpoints so every section
+   scales from the same scale, instead of one-off pixel values per page. */
+:root {
+  --container-max: 1320px;      /* content never over-stretches on 1920/2560/4K screens */
+  --container-pad: 5%;
+  --section-pad-y: clamp(48px, 8vw, 110px);
+  --nav-h: 76px;
+}
+
+/* ---------- Base / reset ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+/* RESPONSIVE FIX: guarantees "no horizontal scrolling" globally, as required. */
+body {
+  font-family: 'Inter', sans-serif; background: var(--dawn-page); color: var(--dawn-ink); line-height: 1.6;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+.display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.03em; }
+.mono { font-family: 'Space Mono', monospace; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+/* RESPONSIVE FIX: defensive rule for any image added later (none exist today,
+   but the brief requires it and it costs nothing to have it ready). */
+img, svg { max-width: 100%; height: auto; display: block; }
+[data-theme="minimal"] .marquee, [data-theme="minimal"] .hero__title, [data-theme="minimal"] .hero__tagline { animation: none !important; }
+
+/* RESPONSIVE FIX: accessible skip link (new, keyboard/screen-reader users only) */
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 9999;
+  background: var(--dawn-cream); color: var(--dawn-navy); padding: 10px 18px;
+  border-radius: 4px; font-size: 13px; font-weight: 600; transition: top 0.2s ease;
+}
+.skip-link:focus { top: 12px; }
+
+/* RESPONSIVE FIX: .reveal scroll-in animation existed only in shop.html's CSS
+   even though every page's JS toggles it — moved here so it now works
+   consistently on every page instead of only one. */
+.reveal { opacity: 1; }
+.js-ready .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+.js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .js-ready .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ---------- Loader ---------- */
+.loader {
+  position: fixed; inset: 0; z-index: 9999; background: var(--dawn-navy);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease, background-color 0.5s ease;
+}
+.loader__mark { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 6vw, 34px); letter-spacing: 0.12em; color: var(--dawn-cream); animation: loaderPulse 1.1s ease-in-out infinite; }
+.loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+@keyframes loaderPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--dawn-coral); z-index: 9998; width: 0%; transition: width 0.1s linear, background-color 0.5s ease; }
+
+/* ==========================================================================
+   HEADER / NAV
+   RESPONSIVE FIX: this is the big one. Previously `.nav__links` either
+   vanished completely under 640px with no replacement (index/shop) or
+   stayed visible and got cramped (story/contact). Now every page ships
+   the same structure: Logo | nav links (desktop) | hamburger (mobile) |
+   wishlist/cart/theme icons — always reachable, never clipped.
+   ========================================================================== */
+.nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px var(--container-pad); gap: 12px;
+  position: sticky; top: 0; z-index: 300;
+  background: var(--dawn-navy); border-bottom: 1px solid var(--dawn-border);
+  transition: background-color 0.5s ease, border-color 0.5s ease;
+  flex-wrap: wrap;
+}
+[data-theme="luxury"] .nav { background: rgba(20,18,16,0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.nav__logo { font-size: clamp(18px, 3vw, 22px); letter-spacing: 0.08em; color: var(--dawn-cream); white-space: nowrap; }
+
+.nav__links { display: flex; gap: 28px; list-style: none; }
+.nav__links a { font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--dawn-cream); opacity: 0.85; transition: opacity 0.2s; }
+.nav__links a.is-active, .nav__links a:hover { opacity: 1; }
+.nav__links a:focus-visible { opacity: 1; outline: 1px solid var(--dawn-gold); outline-offset: 4px; }
+
+.nav__right { display: flex; align-items: center; gap: 10px; order: 3; }
+.nav__icon-btn {
+  position: relative; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--dawn-glass); border: 1px solid var(--dawn-border); color: var(--dawn-cream);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+  flex-shrink: 0;
+}
+.nav__icon-btn:hover, .nav__icon-btn:focus-visible { transform: translateY(-2px); outline: none; border-color: var(--dawn-gold); }
+.nav__badge {
+  position: absolute; top: -6px; right: -6px; background: var(--dawn-coral); color: var(--dawn-navy);
+  font-size: 10px; font-weight: 700; min-width: 17px; height: 17px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; padding: 0 3px; transition: background-color 0.5s;
+}
+
+/* RESPONSIVE FIX: new hamburger toggle button — hidden on tablet/desktop,
+   shown only under the nav-collapse breakpoint. */
+.nav__burger {
+  display: none; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--dawn-glass); border: 1px solid var(--dawn-border); color: var(--dawn-cream);
+  cursor: pointer; align-items: center; justify-content: center; flex-shrink: 0; order: 2;
+}
+.nav__burger:hover, .nav__burger:focus-visible { border-color: var(--dawn-gold); outline: none; }
+.nav__burger span { display: block; width: 17px; height: 2px; background: currentColor; position: relative; transition: background-color 0.2s; }
+.nav__burger span::before, .nav__burger span::after { content: ''; position: absolute; left: 0; width: 17px; height: 2px; background: currentColor; transition: transform 0.25s ease, top 0.25s ease, opacity 0.2s ease; }
+.nav__burger span::before { top: -6px; }
+.nav__burger span::after { top: 6px; }
+.nav__burger.is-active span { background: transparent; }
+.nav__burger.is-active span::before { top: 0; transform: rotate(45deg); }
+.nav__burger.is-active span::after { top: 0; transform: rotate(-45deg); }
+
+.theme-switcher { position: relative; }
+.theme-switcher__panel {
+  position: absolute; top: 50px; right: 0; background: var(--dawn-navy); border: 1px solid var(--dawn-border);
+  border-radius: 12px; padding: 8px; min-width: 195px;
+  opacity: 0; visibility: hidden; transform: translateY(-8px);
+  transition: opacity 0.25s, transform 0.25s, visibility 0.25s, background-color 0.5s;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.35);
+  max-width: calc(100vw - 24px);
+}
+.theme-switcher__panel.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+.theme-opt {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border-radius: 8px;
+  background: transparent; border: none; color: var(--dawn-cream); font-family: 'Inter', sans-serif; font-size: 13px;
+  cursor: pointer; text-align: left; transition: background 0.15s;
+}
+.theme-opt:hover, .theme-opt:focus-visible { background: rgba(255,255,255,0.08); }
+.theme-opt.is-active { background: rgba(255,255,255,0.14); font-weight: 600; }
+.theme-opt__dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.35); }
+
+/* RESPONSIVE FIX: nav breakpoint — under 860px the link list becomes a
+   slide-down mobile panel driven by .nav__burger; at 860px+ it's the
+   normal inline row. 860px sits between "tablet" and "laptop" in the
+   brief's list so iPads (768/820) reliably get the compact menu too,
+   avoiding the cramped in-between state the old code had. */
+@media (max-width: 859px) {
+  .nav__burger { display: flex; }
+  .nav__links {
+    order: 4; flex-basis: 100%; flex-direction: column; gap: 0;
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+  }
+  .nav__links.is-open { max-height: 320px; opacity: 1; margin-top: 14px; }
+  .nav__links li { width: 100%; border-top: 1px solid var(--dawn-border); }
+  .nav__links a { display: block; padding: 14px 4px; font-size: 14px; }
+}
+@media (min-width: 860px) {
+  .nav__links { display: flex !important; max-height: none !important; opacity: 1 !important; }
+}
+
+/* ---------- Hero (home) ---------- */
+.hero {
+  background: linear-gradient(to bottom, var(--dawn-navy) 0%, var(--dawn-navy) 40%, var(--dawn-plum) 65%, var(--dawn-coral) 88%, var(--dawn-gold) 100%);
+  min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 60px var(--container-pad); transition: background 0.6s ease;
+}
+/* RESPONSIVE FIX: min clamp bound lowered (56px -> 40px) so "DAWN ERA" can
+   never get close to the 320px viewport edge; still huge on desktop. */
+.hero__title { font-size: clamp(40px, 13vw, 128px); color: var(--dawn-cream); line-height: 0.9; animation: rise 1s ease-out; overflow-wrap: break-word; }
+.hero__tagline { font-size: clamp(12px, 2vw, 16px); letter-spacing: 0.35em; text-transform: uppercase; color: var(--dawn-gold); margin-top: 20px; animation: rise 1s ease-out 0.15s backwards; }
+.hero__sub { max-width: 460px; margin-top: 24px; color: var(--dawn-cream); opacity: 0.75; font-size: clamp(14px, 2vw, 15px); animation: rise 1s ease-out 0.3s backwards; }
+/* RESPONSIVE FIX / BUGFIX: the original site defined `.btn` three different
+   ways across index/story/contact (different padding, and only the home
+   page's version had the coral background + rise animation). Merging them
+   under one bare `.btn` selector would have leaked the home page's
+   margin-top and animation onto the Story/Contact CTA buttons. Each is
+   now scoped to the section it actually appears in, exactly matching each
+   page's original look. */
+.hero .btn, .signup .btn {
+  display: inline-block; margin-top: 40px; padding: 16px 40px; background: var(--dawn-coral); color: var(--dawn-navy);
+  font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+  border: none; border-radius: 2px; cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s, color 0.3s; animation: rise 1s ease-out 0.45s backwards;
+}
+.hero .btn:hover, .signup .btn:hover { background: var(--dawn-gold); transform: translateY(-2px); }
+.hero .btn:focus-visible, .signup .btn:focus-visible { background: var(--dawn-gold); outline: 2px solid var(--dawn-navy); outline-offset: 2px; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .hero__title, .hero__tagline, .hero__sub, .hero .btn, .signup .btn { animation: none; } }
+
+.marquee { background: var(--dawn-navy); overflow: hidden; padding: 14px 0; white-space: nowrap; transition: background-color 0.5s; }
+.marquee__track { display: inline-block; font-size: 13px; letter-spacing: 0.15em; color: var(--dawn-gold); animation: scroll 22s linear infinite; }
+.marquee__track span { margin: 0 24px; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
+
+/* ---------- Drop preview grid (home) ---------- */
+.drop { padding: var(--section-pad-y) var(--container-pad); max-width: var(--container-max); margin: 0 auto; }
+.drop__header { margin-bottom: clamp(32px, 6vw, 56px); }
+.drop__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-coral); }
+.drop__title { font-size: clamp(32px, 5vw, 48px); margin-top: 8px; }
+/* RESPONSIVE FIX: mobile-first grid — 1 col by default, 2 at 560px, 3 at
+   900px. Previously there was no 1-column rule at all, so two cramped
+   columns persisted all the way down to 320px. */
+.drop__grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 560px) { .drop__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .drop__grid { grid-template-columns: repeat(3, 1fr); } }
+
+.drop-card {
+  position: relative; border: 1px solid var(--dawn-border); padding: 28px 22px; text-align: left;
+  transition: transform 0.25s ease, border-color 0.5s ease, box-shadow 0.25s ease;
+}
+.drop-card:hover, .drop-card:focus-within { transform: translateY(-6px); border-color: var(--dawn-coral); box-shadow: 0 14px 28px rgba(16,25,43,0.12); }
+.drop-card__wish {
+  position: absolute; top: 16px; right: 16px; background: none; border: none; cursor: pointer;
+  color: var(--dawn-ink); opacity: 0.4; font-size: 18px; transition: opacity 0.2s, color 0.3s, transform 0.2s;
+}
+.drop-card__wish:hover, .drop-card__wish:focus-visible { opacity: 1; transform: scale(1.15); }
+.drop-card__wish.is-active { opacity: 1; color: var(--dawn-coral); }
+.drop-card__top { cursor: pointer; }
+.drop-card__num { font-size: 14px; color: var(--dawn-coral); }
+.drop-card__name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(24px, 3vw, 28px); letter-spacing: 0.02em; margin-top: 12px; }
+.drop-card__status { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-ink); opacity: 0.55; margin-top: 16px; }
+.drop-card__row { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.drop-card__size {
+  flex: 1; min-width: 90px; background: transparent; border: 1px solid var(--dawn-border-2); color: var(--dawn-ink);
+  border-radius: 4px; padding: 8px; font-size: 12px; font-family: 'Inter', sans-serif;
+}
+.drop-card__add {
+  background: var(--dawn-navy); color: var(--dawn-cream); border: none; border-radius: 4px; padding: 8px 14px;
+  font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; cursor: pointer;
+  white-space: nowrap; transition: background-color 0.3s, transform 0.2s;
+}
+.drop-card__add:hover, .drop-card__add:focus-visible { background: var(--dawn-coral); color: var(--dawn-navy); transform: translateY(-1px); }
+.drop__more { text-align: center; margin-top: 48px; }
+.drop__more-link { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-coral); border-bottom: 1px solid var(--dawn-coral); padding-bottom: 4px; transition: opacity 0.2s; }
+.drop__more-link:hover, .drop__more-link:focus-visible { opacity: 0.65; }
+
+/* ---------- Story teaser (home) ---------- */
+.story { background: var(--dawn-navy); color: var(--dawn-cream); padding: var(--section-pad-y) var(--container-pad); transition: background-color 0.5s, color 0.5s; }
+.story__inner { max-width: 640px; margin: 0 auto; text-align: center; }
+.story__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-gold); }
+.story__text { font-size: clamp(19px, 3vw, 28px); line-height: 1.5; margin-top: 20px; }
+.story__link { display: inline-block; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-gold); border-bottom: 1px solid var(--dawn-gold); padding-bottom: 4px; margin-top: 28px; transition: opacity 0.2s; }
+.story__link:hover, .story__link:focus-visible { opacity: 0.7; }
+
+/* ---------- Signup / newsletter ---------- */
+.signup { padding: var(--section-pad-y) var(--container-pad); text-align: center; }
+.signup__title { font-size: clamp(28px, 5vw, 48px); }
+.signup__sub { color: var(--dawn-ink); opacity: 0.7; margin-top: 12px; }
+.signup__form { display: flex; justify-content: center; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+.signup__form input {
+  padding: 14px 18px; border: 1px solid var(--dawn-border-2); background: transparent;
+  font-family: 'Inter', sans-serif; font-size: 14px; min-width: 260px; max-width: 100%; border-radius: 2px; color: var(--dawn-ink);
+}
+.signup__form input:focus-visible { outline: 2px solid var(--dawn-coral); outline-offset: 2px; }
+.signup__success { margin-top: 18px; font-size: 14px; color: var(--dawn-coral); min-height: 1.2em; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ---------- Countdown ---------- */
+.countdown { text-align: center; margin: 28px 0 8px; }
+.countdown__label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-coral); margin-bottom: 16px; }
+.countdown__grid { display: flex; justify-content: center; gap: clamp(14px, 4vw, 24px); flex-wrap: wrap; }
+.countdown__unit { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
+.countdown__num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 6vw, 44px); color: var(--dawn-ink); line-height: 1; font-variant-numeric: tabular-nums; }
+.countdown__unit-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-top: 6px; }
+/* On the Contact page the signup block sits right under .contact-grid,
+   which already carries bottom spacing — so it originally had no top
+   padding of its own and slightly smaller heading sizes. Preserved here. */
+.contact-grid + .signup { padding-top: 0; }
+.contact-grid + .signup .signup__title { font-size: clamp(28px, 4.5vw, 42px); }
+.contact-grid + .signup .signup__sub { margin-top: 10px; }
+
+/* ---------- Footer ---------- */
+.footer { background: var(--dawn-navy); color: var(--dawn-cream); padding: 48px var(--container-pad) 32px; text-align: center; transition: background-color 0.5s, color 0.5s; }
+.footer__logo { font-size: 20px; letter-spacing: 0.08em; }
+.footer__tagline { font-size: 11px; letter-spacing: 0.15em; color: var(--dawn-gold); text-transform: uppercase; margin-top: 8px; }
+.footer__meta { font-size: 12px; opacity: 0.5; margin-top: 24px; }
+
+/* ---------- Page hero (shop/story/contact) ---------- */
+.page-hero { background: var(--dawn-navy); padding: 40px var(--container-pad) 64px; text-align: center; }
+.page-hero__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-gold); }
+/* RESPONSIVE FIX: min bound lowered (40px -> 34px) + overflow-wrap so a
+   two-line manual <br> heading can never clip on very narrow phones. */
+.page-hero__title { font-size: clamp(34px, 7vw, 72px); color: var(--dawn-cream); margin-top: 10px; overflow-wrap: break-word; }
+.page-hero__sub { color: var(--dawn-cream); opacity: 0.75; max-width: 420px; margin: 16px auto 0; font-size: 15px; }
+/* RESPONSIVE FIX: on very narrow phones let the two-line title wrap
+   naturally instead of forcing the same break as desktop. */
+@media (max-width: 380px) { .page-hero__title br { display: none; } }
+
+/* ---------- Shop page ---------- */
+.shop-hero { background: var(--dawn-navy); padding: 40px var(--container-pad) 44px; transition: background-color 0.5s; }
+.shop-hero__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-gold); }
+.shop-hero__title { font-size: clamp(32px, 6vw, 64px); color: var(--dawn-cream); margin-top: 10px; }
+.shop-hero__sub { color: var(--dawn-cream); opacity: 0.75; margin-top: 16px; max-width: 460px; font-size: 15px; }
+
+.search-bar { max-width: var(--container-max); margin: -22px auto 0; padding: 0 var(--container-pad); position: relative; z-index: 2; }
+.search-bar input {
+  width: 100%; padding: 15px 20px 15px 44px; border-radius: 100px; border: 1px solid var(--dawn-border);
+  background: var(--dawn-page); color: var(--dawn-ink); font-family: 'Inter', sans-serif; font-size: 14px;
+  box-shadow: 0 10px 28px rgba(16,25,43,0.12); transition: background-color 0.5s, border-color 0.3s;
+}
+.search-bar input:focus-visible { outline: 2px solid var(--dawn-coral); outline-offset: 1px; }
+.search-bar svg { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); opacity: 0.5; pointer-events: none; }
+
+.shop-section { padding: 56px var(--container-pad) 110px; max-width: var(--container-max); margin: 0 auto; }
+.filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: clamp(28px, 5vw, 48px); flex-wrap: wrap; }
+.filter-tab {
+  font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 22px; border: 1px solid var(--dawn-border-2);
+  border-radius: 999px; background: transparent; color: var(--dawn-ink); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.filter-tab:hover { border-color: var(--dawn-coral); }
+.filter-tab.is-active { background: var(--dawn-navy); border-color: var(--dawn-navy); color: var(--dawn-cream); }
+
+/* RESPONSIVE FIX: product grid now follows the brief exactly —
+   1 col mobile / 2 col tablet / 3 col laptop / 4 col desktop —
+   instead of a fixed 3-column grid that never adapted below 768px. */
+.product-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 560px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; } }
+@media (min-width: 900px)  { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+@media (min-width: 1280px) { .product-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+
+.product-card { position: relative; border: 1px solid var(--dawn-border); transition: transform 0.25s ease, border-color 0.5s ease, box-shadow 0.25s ease; }
+.product-card:hover, .product-card:focus-within { transform: translateY(-6px); border-color: var(--dawn-coral); box-shadow: 0 14px 28px rgba(16,25,43,0.12); }
+.product-card__wish {
+  position: absolute; top: 12px; right: 12px; z-index: 2; background: rgba(0,0,0,0.25); border: none; border-radius: 50%;
+  width: 32px; height: 32px; color: #fff; cursor: pointer; font-size: 15px; transition: transform 0.2s, background 0.2s;
+}
+.product-card__wish:hover { transform: scale(1.1); }
+.product-card__wish.is-active { background: var(--dawn-coral); }
+.product-card__image { aspect-ratio: 4/5; background: linear-gradient(155deg, var(--dawn-navy), var(--dawn-plum)); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.5s; }
+.product-card__body { padding: 18px; text-align: left; }
+.product-card__cat { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-coral); }
+.product-card__name { font-size: clamp(19px, 2.4vw, 22px); margin-top: 6px; cursor: pointer; }
+.product-card__price { font-size: 13px; margin-top: 4px; opacity: 0.6; }
+.product-card__row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.product-card__size { flex: 1; min-width: 90px; background: transparent; border: 1px solid var(--dawn-border-2); color: var(--dawn-ink); border-radius: 4px; padding: 8px; font-size: 12px; }
+.product-card__add { background: var(--dawn-navy); color: var(--dawn-cream); border: none; border-radius: 4px; padding: 8px 14px; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background-color 0.3s, transform 0.2s; }
+.product-card__add:hover { background: var(--dawn-coral); color: var(--dawn-navy); transform: translateY(-1px); }
+.no-results { grid-column: 1/-1; text-align: center; opacity: 0.55; padding: 60px 0; font-size: 14px; }
+
+/* ---------- Contact page ---------- */
+/* RESPONSIVE FIX: mobile-first — 1 column by default, 2 columns from
+   640px up, so 320–639px screens never squeeze two cards side by side. */
+.contact-grid { max-width: 900px; margin: 0 auto; padding: var(--section-pad-y) var(--container-pad); display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 640px) { .contact-grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+.contact-card {
+  border: 1px solid var(--dawn-border-2); border-radius: 8px; padding: clamp(28px, 4vw, 40px) clamp(20px, 4vw, 32px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.contact-card:hover { transform: translateY(-6px); border-color: var(--dawn-coral); box-shadow: 0 14px 28px rgba(16,25,43,0.1); }
+.contact-card__icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.contact-card--wa .contact-card__icon { background: #25D366; }
+.contact-card--mail .contact-card__icon { background: var(--dawn-coral); }
+.contact-card__title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.02em; }
+.contact-card__desc { font-size: 14px; opacity: 0.7; margin-top: 8px; margin-bottom: 24px; }
+
+.btn--solid { background: var(--dawn-coral); color: var(--dawn-navy); border: none; }
+.btn--solid:hover, .btn--solid:focus-visible { background: var(--dawn-gold); transform: translateY(-2px); }
+.btn--outline { background: transparent; color: var(--dawn-ink); border: 1px solid var(--dawn-ink); }
+.btn--outline:hover, .btn--outline:focus-visible { background: var(--dawn-ink); color: var(--dawn-cream); transform: translateY(-2px); }
+.contact-card .btn {
+  display: inline-block; padding: 14px 30px; font-family: 'Inter', sans-serif; font-size: 13px;
+  letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; border-radius: 2px; border: none;
+  cursor: pointer; transition: transform 0.2s, background 0.2s, color 0.2s;
+}
+.story-cta .btn {
+  display: inline-block; padding: 16px 36px; font-family: 'Inter', sans-serif; font-size: 13px;
+  letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border-radius: 2px;
+  cursor: pointer; transition: transform 0.2s, background 0.2s, color 0.2s;
+}
+
+/* ---------- Story page ---------- */
+.story-body { max-width: 680px; margin: 0 auto; padding: var(--section-pad-y) var(--container-pad); }
+.story-body p { font-size: clamp(18px, 2.6vw, 24px); line-height: 1.6; margin-bottom: 32px; }
+.story-body p:first-child { font-weight: 500; }
+
+.pillars { background: var(--dawn-navy); color: var(--dawn-cream); padding: var(--section-pad-y) var(--container-pad); }
+.pillars__inner { max-width: 1000px; margin: 0 auto; }
+.pillars__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-gold); text-align: center; display: block; margin-bottom: clamp(28px, 5vw, 48px); }
+/* RESPONSIVE FIX: explicit mobile-first steps instead of one late
+   max-width:640px jump straight from 3 columns to 1. */
+.pillars__grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+@media (min-width: 640px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; } }
+@media (min-width: 900px) { .pillars__grid { grid-template-columns: repeat(3, 1fr); gap: 36px; } }
+.pillar__num { font-size: 13px; color: var(--dawn-coral); }
+.pillar__name { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.02em; margin-top: 10px; }
+.pillar__desc { font-size: 14px; opacity: 0.75; margin-top: 10px; }
+
+.story-cta { text-align: center; padding: var(--section-pad-y) var(--container-pad); }
+.story-cta__title { font-size: clamp(26px, 4.5vw, 42px); }
+.story-cta__actions { display: flex; justify-content: center; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+
+/* ---------- Floating: back-to-top ---------- */
+.back-to-top {
+  position: fixed; bottom: 90px; right: 24px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--dawn-navy); color: var(--dawn-cream); border: none; cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background-color 0.5s; z-index: 99;
+}
+.back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover, .back-to-top:focus-visible { background: var(--dawn-coral); }
+
+/* ---------- AI chat widget ---------- */
+.ai-chat-btn {
+  position: fixed; bottom: 24px; right: 24px; width: 58px; height: 58px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--dawn-navy), var(--dawn-plum) 55%, var(--dawn-coral));
+  border: none; cursor: pointer; z-index: 400; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(16,25,43,0.35); transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.ai-chat-btn:hover, .ai-chat-btn:focus-visible { transform: scale(1.08); box-shadow: 0 10px 28px rgba(16,25,43,0.45); outline: none; }
+.ai-chat-btn__ring { position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid var(--dawn-coral); opacity: 0.5; animation: aiPulse 2.4s ease-out infinite; }
+@keyframes aiPulse { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1.35); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .ai-chat-btn__ring { animation: none; display: none; } }
+
+.ai-chat-window {
+  position: fixed; bottom: 94px; right: 24px; width: 360px; max-width: calc(100vw - 32px);
+  height: 500px; max-height: calc(100vh - 140px); background: var(--dawn-page, var(--dawn-cream));
+  border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 24px 60px rgba(16,25,43,0.3); transform: translateY(16px) scale(0.96); opacity: 0; visibility: hidden;
+  transition: transform 0.3s cubic-bezier(0.32,0.72,0,1), opacity 0.3s, visibility 0.3s, background-color 0.5s; z-index: 401;
+}
+.ai-chat-window.is-open { transform: translateY(0) scale(1); opacity: 1; visibility: visible; }
+.ai-chat__header { background: var(--dawn-navy); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.5s; }
+.ai-chat__header-info { display: flex; align-items: center; gap: 10px; }
+.ai-chat__avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--dawn-coral), var(--dawn-gold)); display: flex; align-items: center; justify-content: center; color: var(--dawn-navy); font-size: 15px; font-weight: 700; flex-shrink: 0; }
+.ai-chat__name { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.03em; color: var(--dawn-cream); }
+.ai-chat__status { font-size: 11px; color: var(--dawn-cream); opacity: 0.7; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+.ai-chat__dot { width: 6px; height: 6px; border-radius: 50%; background: #4ADE80; display: inline-block; }
+.ai-chat__close { background: rgba(255,255,255,0.12); border: none; color: var(--dawn-cream); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; flex-shrink: 0; }
+.ai-chat__body { flex: 1; overflow-y: auto; padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.ai-msg { max-width: 82%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.5; animation: aiMsgIn 0.25s ease; }
+@keyframes aiMsgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.ai-msg--bot { align-self: flex-start; background: var(--dawn-border-2, rgba(42,33,24,0.1)); color: var(--dawn-ink); border-bottom-left-radius: 4px; }
+.ai-msg--user { align-self: flex-end; background: var(--dawn-coral); color: var(--dawn-navy); border-bottom-right-radius: 4px; font-weight: 500; }
+.ai-msg a { color: inherit; text-decoration: underline; font-weight: 600; }
+.ai-typing { align-self: flex-start; display: flex; gap: 4px; padding: 12px 14px; background: var(--dawn-border-2, rgba(42,33,24,0.1)); border-radius: 14px; border-bottom-left-radius: 4px; }
+.ai-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--dawn-ink); opacity: 0.4; animation: aiTyping 1.2s infinite; }
+.ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes aiTyping { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
+.ai-chat__quick { display: flex; gap: 6px; padding: 0 14px 10px; flex-wrap: wrap; }
+.ai-chip { background: transparent; border: 1px solid var(--dawn-border-2); color: var(--dawn-ink); border-radius: 100px; padding: 7px 12px; font-size: 12px; cursor: pointer; transition: background 0.2s, border-color 0.2s; font-family: 'Inter', sans-serif; }
+.ai-chip:hover, .ai-chip:focus-visible { border-color: var(--dawn-coral); background: rgba(232,98,63,0.08); }
+.ai-chat__input { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--dawn-border); }
+.ai-chat__input input { flex: 1; min-width: 0; border: 1px solid var(--dawn-border-2); border-radius: 100px; padding: 10px 16px; font-family: 'Inter', sans-serif; font-size: 13px; background: transparent; color: var(--dawn-ink); }
+.ai-chat__input input:focus-visible { outline: 2px solid var(--dawn-coral); outline-offset: 1px; }
+.ai-chat__input button { width: 38px; height: 38px; border-radius: 50%; background: var(--dawn-navy); color: var(--dawn-cream); border: none; cursor: pointer; flex-shrink: 0; transition: background-color 0.3s; display: flex; align-items: center; justify-content: center; }
+.ai-chat__input button:hover { background: var(--dawn-coral); color: var(--dawn-navy); }
+
+/* ---------- Cart / wishlist drawer ---------- */
+.cw-backdrop, .qv-backdrop { position: fixed; inset: 0; background: rgba(16,25,43,0.55); opacity: 0; visibility: hidden; transition: opacity 0.3s; z-index: 500; }
+.cw-backdrop.is-open, .qv-backdrop.is-open { opacity: 1; visibility: visible; }
+.cw-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 380px; background: var(--dawn-page);
+  transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1), background-color 0.5s;
+  z-index: 501; display: flex; flex-direction: column;
+}
+.cw-drawer.is-open { transform: translateX(0); }
+.cw-drawer__head { padding: 20px 24px; border-bottom: 1px solid var(--dawn-border); display: flex; justify-content: space-between; align-items: center; }
+.cw-tabs { display: flex; gap: 18px; }
+.cw-tab { background: none; border: none; font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.02em; color: var(--dawn-ink); opacity: 0.4; cursor: pointer; padding-bottom: 4px; border-bottom: 2px solid transparent; }
+.cw-tab.is-active { opacity: 1; border-color: var(--dawn-coral); }
+.cw-close { background: var(--dawn-glass); border: 1px solid var(--dawn-border); color: var(--dawn-ink); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+.cw-drawer__items { flex: 1; overflow-y: auto; padding: 8px 24px; }
+.cw-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--dawn-border); gap: 10px; }
+.cw-item__name { font-size: 14px; font-weight: 600; }
+.cw-item__meta { font-size: 12px; opacity: 0.6; margin-top: 3px; }
+.cw-item__remove { background: none; border: none; color: var(--dawn-ink); opacity: 0.5; font-size: 15px; cursor: pointer; padding: 4px 8px; flex-shrink: 0; }
+.cw-item__remove:hover { opacity: 1; color: var(--dawn-coral); }
+.cw-empty { text-align: center; opacity: 0.55; font-size: 14px; padding: 60px 0; }
+
+/* ---------- Quick view modal ---------- */
+.qv-backdrop { display: flex; align-items: flex-end; justify-content: center; }
+.qv-modal {
+  background: var(--dawn-page); border-radius: 20px 20px 0 0; padding: 12px 24px 32px; max-width: 460px; width: 100%;
+  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1), background-color 0.5s;
+  max-height: 80vh; overflow-y: auto; position: relative;
+}
+.qv-backdrop.is-open .qv-modal { transform: translateY(0); }
+.qv-handle { width: 40px; height: 4px; background: var(--dawn-border-2); border-radius: 2px; margin: 8px auto 20px; }
+.qv-close { position: absolute; top: 14px; right: 18px; background: none; border: none; font-size: 16px; color: var(--dawn-ink); opacity: 0.5; cursor: pointer; width: 32px; height: 32px; }
+.qv-close:hover { opacity: 1; }
+.qv-image { aspect-ratio: 16/9; border-radius: 10px; background: linear-gradient(155deg, var(--dawn-navy), var(--dawn-plum)); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: background 0.5s; }
+.qv-cat { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-coral); }
+.qv-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 4vw, 32px); margin-top: 6px; }
+.qv-status { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; margin-top: 8px; margin-bottom: 20px; }
+.qv-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.qv-sizeguide-link { display: block; background: none; border: none; font-size: 12px; text-decoration: underline; color: var(--dawn-ink); opacity: 0.65; margin-top: 12px; cursor: pointer; padding: 4px 0; font-family: 'Inter', sans-serif; }
+.qv-sizeguide-link:hover, .qv-sizeguide-link:focus-visible { opacity: 1; color: var(--dawn-coral); }
+
+.qv-accordion { margin-top: 22px; border-top: 1px solid var(--dawn-border); padding-top: 16px; }
+.qv-accordion__trigger { width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--dawn-ink); cursor: pointer; padding: 6px 0; font-family: 'Inter', sans-serif; }
+.qv-accordion__icon { font-size: 16px; transition: transform 0.25s ease; line-height: 1; }
+.qv-accordion__trigger[aria-expanded="true"] .qv-accordion__icon { transform: rotate(45deg); }
+.qv-accordion__panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.qv-accordion__panel.is-open { max-height: 240px; }
+.qv-care-list { list-style: none; padding: 12px 0 4px; font-size: 13px; line-height: 1.9; opacity: 0.8; }
+.qv-care-list li { padding-left: 18px; position: relative; }
+.qv-care-list li::before { content: '\2014'; position: absolute; left: 0; color: var(--dawn-coral); }
+
+.size-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+.size-table th, .size-table td { text-align: center; padding: 10px 6px; font-size: 13px; border-bottom: 1px solid var(--dawn-border); }
+.size-table th { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; font-weight: 600; }
+.size-table td:first-child, .size-table th:first-child { text-align: left; font-weight: 600; }
+.size-table__note { font-size: 12px; opacity: 0.6; margin-top: 16px; line-height: 1.6; }
+
+/* ==========================================================================
+   RESPONSIVE FIX — small-screen refinements for floating UI
+   (chat widget / back-to-top / drawer) so nothing overlaps the edges
+   on phones from 320px up.
+   ========================================================================== */
+@media (max-width: 480px) {
+  .ai-chat-window { width: calc(100vw - 24px); right: 12px; bottom: 88px; height: 65vh; }
+  .ai-chat-btn { width: 50px; height: 50px; bottom: 16px; right: 16px; }
+  .back-to-top { width: 40px; height: 40px; bottom: 78px; right: 18px; }
+  .cw-drawer { max-width: 100%; }
+}
+
+/* ==========================================================================
+   RESPONSIVE FIX — large-screen polish (1440 / 1920 / 2560 / 4K)
+   Content stays capped at --container-max and centered rather than
+   stretching edge-to-edge, which is what keeps a premium layout
+   "pixel-perfect" instead of thin, over-wide lines of text on big
+   monitors. Spacing scales up slightly using the fluid --section-pad-y
+   token already applied throughout, so no extra rules are needed here
+   beyond a touch more breathing room in the nav.
+   ========================================================================== */
+@media (min-width: 1440px) {
+  .nav { padding-left: max(var(--container-pad), calc((100vw - var(--container-max)) / 2)); padding-right: max(var(--container-pad), calc((100vw - var(--container-max)) / 2)); }
+}

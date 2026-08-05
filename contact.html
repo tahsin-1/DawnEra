@@ -17,101 +17,48 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --dawn-navy: #10192B; --dawn-plum: #4A3B6B; --dawn-coral: #E8623F;
-    --dawn-gold: #E8B84B; --dawn-cream: #F5EFE6; --dawn-ink: #2A2118;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', sans-serif; background: var(--dawn-cream); color: var(--dawn-ink); line-height: 1.6; }
-  .display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.03em; }
-  .mono { font-family: 'Space Mono', monospace; }
-  a { color: inherit; text-decoration: none; }
-
-  .nav {
-    display: flex; justify-content: space-between; align-items: center; padding: 24px 5%;
-    background: var(--dawn-navy);
-  }
-  .nav__logo { font-size: 22px; letter-spacing: 0.08em; color: var(--dawn-cream); }
-  .nav__links { display: flex; gap: 32px; list-style: none; }
-  .nav__links a { font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--dawn-cream); opacity: 0.85; transition: opacity 0.2s; }
-  .nav__links a.is-active, .nav__links a:hover { opacity: 1; }
-  .nav__links a:focus-visible { opacity: 1; outline: 1px solid var(--dawn-gold); outline-offset: 4px; }
-
-  .page-hero { background: var(--dawn-navy); padding: 40px 5% 80px; text-align: center; }
-  .page-hero__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-gold); }
-  .page-hero__title { font-size: clamp(40px, 7vw, 72px); color: var(--dawn-cream); margin-top: 10px; }
-  .page-hero__sub { color: var(--dawn-cream); opacity: 0.75; max-width: 420px; margin: 16px auto 0; font-size: 15px; }
-
-  .contact-grid { max-width: 900px; margin: 0 auto; padding: 90px 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-  .contact-card {
-    border: 1px solid rgba(42, 33, 24, 0.15); border-radius: 8px; padding: 40px 32px;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-  }
-  .contact-card:hover { transform: translateY(-6px); border-color: var(--dawn-coral); box-shadow: 0 14px 28px rgba(16,25,43,0.1); }
-  .contact-card__icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
-  .contact-card--wa .contact-card__icon { background: #25D366; }
-  .contact-card--mail .contact-card__icon { background: var(--dawn-coral); }
-  .contact-card__title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.02em; }
-  .contact-card__desc { font-size: 14px; opacity: 0.7; margin-top: 8px; margin-bottom: 24px; }
-
-  .btn {
-    display: inline-block; padding: 14px 30px; font-family: 'Inter', sans-serif; font-size: 13px;
-    letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; border-radius: 2px; border: none;
-    cursor: pointer; transition: transform 0.2s, background 0.2s;
-  }
-  .btn--solid { background: var(--dawn-coral); color: var(--dawn-navy); }
-  .btn--solid:hover, .btn--solid:focus-visible { background: var(--dawn-gold); transform: translateY(-2px); }
-
-  .signup { padding: 0 5% 100px; text-align: center; }
-  .signup__title { font-size: clamp(28px, 4.5vw, 42px); }
-  .signup__sub { opacity: 0.7; margin-top: 10px; }
-  .signup__form { display: flex; justify-content: center; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
-  .signup__form input {
-    padding: 14px 18px; border: 1px solid rgba(42, 33, 24, 0.25); background: transparent;
-    font-family: 'Inter', sans-serif; font-size: 14px; min-width: 260px; border-radius: 2px;
-  }
-  .signup__form input:focus-visible { outline: 2px solid var(--dawn-coral); outline-offset: 2px; }
-
-  .footer { background: var(--dawn-navy); color: var(--dawn-cream); padding: 48px 5% 32px; text-align: center; }
-  .footer__logo { font-size: 20px; letter-spacing: 0.08em; }
-  .footer__tagline { font-size: 11px; letter-spacing: 0.15em; color: var(--dawn-gold); text-transform: uppercase; margin-top: 8px; }
-  .footer__meta { font-size: 12px; opacity: 0.5; margin-top: 24px; }
-
-  .whatsapp-btn {
-    position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; background: #25D366;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.28); z-index: 100; transition: transform 0.2s;
-  }
-  .whatsapp-btn:hover, .whatsapp-btn:focus-visible { transform: scale(1.08); outline: 2px solid var(--dawn-navy); outline-offset: 3px; }
-
-  .reveal { opacity: 1; }
-  .js-ready .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-  .js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce) { .js-ready .reveal { opacity: 1; transform: none; transition: none; } }
-
-  @media (max-width: 640px) {
-    .nav__links { gap: 16px; }
-    .nav__links a { font-size: 11px; }
-    .contact-grid { grid-template-columns: 1fr; }
-    .signup__form { flex-direction: column; align-items: center; }
-    .signup__form input { width: 100%; max-width: 320px; }
-    .whatsapp-btn { width: 50px; height: 50px; bottom: 16px; right: 16px; }
-  }
-</style>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
-<nav class="nav">
+<div class="loader" id="loader"><div class="loader__mark display">DAWN ERA</div></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav class="nav" aria-label="Primary">
   <a href="index.html" class="nav__logo display">DAWN ERA</a>
-  <ul class="nav__links">
+  <button class="nav__burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+  <ul class="nav__links" id="navLinks">
     <li><a href="shop.html">Shop</a></li>
     <li><a href="story.html">Story</a></li>
     <li><a href="contact.html" class="is-active">Contact</a></li>
   </ul>
+  <div class="nav__right">
+    <button class="nav__icon-btn" id="wishToggle" aria-label="Wishlist">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      <span class="nav__badge" id="wishCount">0</span>
+    </button>
+    <button class="nav__icon-btn" id="cartToggle" aria-label="Cart">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav__badge" id="cartCount">0</span>
+    </button>
+    <div class="theme-switcher">
+      <button class="nav__icon-btn" id="themeToggle" aria-label="Change theme" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20V2z"/></svg>
+      </button>
+      <div class="theme-switcher__panel" id="themePanel">
+        <button class="theme-opt is-active" data-theme="light"><span class="theme-opt__dot" style="background:#F5EFE6"></span>Light</button>
+        <button class="theme-opt" data-theme="dark"><span class="theme-opt__dot" style="background:#0D0D0E"></span>Dark Mode</button>
+        <button class="theme-opt" data-theme="golden"><span class="theme-opt__dot" style="background:#E8894A"></span>Golden Hour</button>
+        <button class="theme-opt" data-theme="luxury"><span class="theme-opt__dot" style="background:#D4AF37"></span>Luxury</button>
+        <button class="theme-opt" data-theme="minimal"><span class="theme-opt__dot" style="background:#1C1C1C"></span>Minimal / Focus</button>
+        <button class="theme-opt" data-theme="cyber"><span class="theme-opt__dot" style="background:#00E5FF"></span>Cyber / Street</button>
+      </div>
+    </div>
+  </div>
 </nav>
 
+<main id="main-content">
 <div class="page-hero">
   <p class="page-hero__eyebrow mono">Reach out</p>
   <h1 class="page-hero__title display">Let's Talk</h1>
@@ -140,11 +87,30 @@
 <div class="signup">
   <h2 class="signup__title display reveal">First light gets first access</h2>
   <p class="signup__sub reveal" style="transition-delay:0.08s">Join the list. Be first to shop Drop 01.</p>
-  <form class="signup__form reveal" style="transition-delay:0.16s" onsubmit="return false;">
-    <input type="email" placeholder="you@email.com" aria-label="Email address" required>
+
+  <!-- Countdown: placeholder date below — update to the real Drop 01 launch date/time before going live -->
+  <div class="countdown reveal" style="transition-delay:0.12s">
+    <p class="countdown__label mono">Drop 01 launches in</p>
+    <div class="countdown__grid">
+      <div class="countdown__unit"><span class="countdown__num" id="cdDays">00</span><span class="countdown__unit-label">Days</span></div>
+      <div class="countdown__unit"><span class="countdown__num" id="cdHours">00</span><span class="countdown__unit-label">Hrs</span></div>
+      <div class="countdown__unit"><span class="countdown__num" id="cdMins">00</span><span class="countdown__unit-label">Min</span></div>
+      <div class="countdown__unit"><span class="countdown__num" id="cdSecs">00</span><span class="countdown__unit-label">Sec</span></div>
+    </div>
+  </div>
+
+  <!-- Netlify Forms: after deploying, go to your Netlify dashboard → Forms → enable
+       "Form detection" once. No API key, no account elsewhere needed. -->
+  <form class="signup__form reveal" id="signupForm" name="early-access" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="transition-delay:0.16s">
+    <input type="hidden" name="form-name" value="early-access">
+    <p class="visually-hidden"><label>Leave this field empty: <input name="bot-field"></label></p>
+    <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required>
     <button type="submit" class="btn btn--solid">Notify me</button>
   </form>
+  <p class="signup__success" id="signupSuccess" role="status" aria-live="polite"></p>
 </div>
+
+</main>
 
 <footer class="footer">
   <p class="footer__logo display">DAWN ERA</p>
@@ -152,16 +118,52 @@
   <p class="footer__meta">© 2026 Dawn Era. All rights reserved.</p>
 </footer>
 
-<a class="whatsapp-btn" href="https://wa.me/8801997307069?text=Hi%20Dawn%20Era!%20I'm%20interested%20in%20your%20pieces." target="_blank" rel="noopener" aria-label="Chat with Dawn Era on WhatsApp">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-  </svg>
-</a>
+<button class="ai-chat-btn" id="aiChatBtn" aria-label="Chat with Dawn Era Assistant" aria-expanded="false">
+  <span class="ai-chat-btn__ring"></span>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--dawn-cream)"><path d="M12 2 L14 9 L21 12 L14 15 L12 22 L10 15 L3 12 L10 9 Z"/></svg>
+</button>
 
+<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-label="Dawn Era Assistant chat">
+  <div class="ai-chat__header">
+    <div class="ai-chat__header-info">
+      <div class="ai-chat__avatar">✦</div>
+      <div>
+        <p class="ai-chat__name">Dawn Era Assistant</p>
+        <p class="ai-chat__status"><span class="ai-chat__dot"></span>Online</p>
+      </div>
+    </div>
+    <button class="ai-chat__close" id="aiChatClose" aria-label="Close chat">✕</button>
+  </div>
+  <div class="ai-chat__body" id="aiChatBody"></div>
+  <div class="ai-chat__quick" id="aiChatQuick"></div>
+  <form class="ai-chat__input" id="aiChatForm">
+    <input type="text" id="aiChatInput" placeholder="Ask me anything..." aria-label="Type a message" autocomplete="off">
+    <button type="submit" aria-label="Send"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </form>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<div class="cw-backdrop" id="cwBackdrop"></div>
+<div class="cw-drawer" id="cwDrawer" role="dialog" aria-label="Cart and wishlist">
+  <div class="cw-drawer__head">
+    <div class="cw-tabs">
+      <button class="cw-tab is-active display" data-tab="cart">Cart</button>
+      <button class="cw-tab display" data-tab="wishlist">Wishlist</button>
+    </div>
+    <button class="cw-close" id="cwClose" aria-label="Close">✕</button>
+  </div>
+  <div class="cw-drawer__items" id="cwItems"></div>
+</div>
+
+<script src="assets/js/storage.js"></script>
 <script>
 (function () {
   var root = document.documentElement;
   root.classList.add('js-ready');
+
+  window.addEventListener('load', function () { setTimeout(function () { document.getElementById('loader').classList.add('is-hidden'); }, 400); });
+
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var reveals = document.querySelectorAll('.reveal');
   if (prefersReduced || !('IntersectionObserver' in window)) {
@@ -174,8 +176,110 @@
     }, { threshold: 0.15 });
     reveals.forEach(function (el) { observer.observe(el); });
   }
+
+  var progressBar = document.getElementById('scrollProgress');
+  var backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', function () {
+    var h = document.documentElement;
+    progressBar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    backToTop.classList.toggle('is-visible', h.scrollTop > 500);
+  });
+  backToTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' }); });
+
+  var themeToggle = document.getElementById('themeToggle');
+  var themePanel = document.getElementById('themePanel');
+  var themeOpts = document.querySelectorAll('.theme-opt');
+  function applyTheme(name) {
+    if (name === 'light') { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', name); }
+    DawnStorage.setTheme(name);
+    themeOpts.forEach(function (o) { o.classList.toggle('is-active', o.getAttribute('data-theme') === name); });
+  }
+  var savedTheme = 'light';
+  savedTheme = DawnStorage.getTheme();
+  applyTheme(savedTheme);
+  themeToggle.addEventListener('click', function () { themeToggle.setAttribute('aria-expanded', themePanel.classList.toggle('is-open')); });
+  themeOpts.forEach(function (opt) { opt.addEventListener('click', function () { applyTheme(opt.getAttribute('data-theme')); themePanel.classList.remove('is-open'); }); });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.theme-switcher')) themePanel.classList.remove('is-open'); });
+
+  function getList(key) { return DawnStorage.get(key); }
+  function setList(key, list) { DawnStorage.set(key, list); renderCounts(); renderDrawer(); }
+  function renderCounts() {
+    document.getElementById('cartCount').textContent = getList('dawnera_cart').length;
+    document.getElementById('wishCount').textContent = getList('dawnera_wishlist').length;
+  }
+  function renderDrawer() {
+    var activeTab = document.querySelector('.cw-tab.is-active').getAttribute('data-tab');
+    var itemsEl = document.getElementById('cwItems');
+    var list = getList(activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist');
+    if (list.length === 0) { itemsEl.innerHTML = '<p class="cw-empty">' + (activeTab === 'cart' ? 'Your cart is empty.' : 'Your wishlist is empty.') + '</p>'; return; }
+    itemsEl.innerHTML = list.map(function (item, i) {
+      var meta = activeTab === 'cart' ? ('Size ' + item.size) : 'Saved for later';
+      return '<div class="cw-item"><div><p class="cw-item__name">' + item.name + '</p><p class="cw-item__meta">' + meta + '</p></div><button class="cw-item__remove" data-idx="' + i + '" aria-label="Remove">✕</button></div>';
+    }).join('');
+    itemsEl.querySelectorAll('.cw-item__remove').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist';
+        var arr = getList(key); arr.splice(parseInt(btn.getAttribute('data-idx'), 10), 1); setList(key, arr);
+      });
+    });
+  }
+  var cwDrawer = document.getElementById('cwDrawer');
+  var cwBackdrop = document.getElementById('cwBackdrop');
+  function openDrawer(tab) {
+    document.querySelectorAll('.cw-tab').forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-tab') === tab); });
+    renderDrawer(); cwDrawer.classList.add('is-open'); cwBackdrop.classList.add('is-open');
+  }
+  function closeDrawer() { cwDrawer.classList.remove('is-open'); cwBackdrop.classList.remove('is-open'); }
+  document.getElementById('cartToggle').addEventListener('click', function () { openDrawer('cart'); });
+  document.getElementById('wishToggle').addEventListener('click', function () { openDrawer('wishlist'); });
+  document.getElementById('cwClose').addEventListener('click', closeDrawer);
+  cwBackdrop.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.cw-tab').forEach(function (tab) { tab.addEventListener('click', function () { openDrawer(tab.getAttribute('data-tab')); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeDrawer(); themePanel.classList.remove('is-open'); } });
+
+  renderCounts();
+
+  /* Countdown — PLACEHOLDER target date, update before launch */
+  var COUNTDOWN_TARGET = new Date('2026-09-15T00:00:00+06:00').getTime();
+  var cd = { d: document.getElementById('cdDays'), h: document.getElementById('cdHours'), m: document.getElementById('cdMins'), s: document.getElementById('cdSecs') };
+  if (cd.d) {
+    var tick = function () {
+      var diff = COUNTDOWN_TARGET - Date.now();
+      if (diff <= 0) { cd.d.textContent = cd.h.textContent = cd.m.textContent = cd.s.textContent = '00'; return; }
+      var pad = function (n) { return String(n).padStart(2, '0'); };
+      cd.d.textContent = pad(Math.floor(diff / 86400000));
+      cd.h.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      cd.m.textContent = pad(Math.floor((diff % 3600000) / 60000));
+      cd.s.textContent = pad(Math.floor((diff % 60000) / 1000));
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* Early-access form — submits to Netlify Forms via AJAX (no page reload) */
+  var signupForm = document.getElementById('signupForm');
+  if (signupForm) {
+    signupForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new URLSearchParams(new FormData(signupForm)).toString();
+      var successEl = document.getElementById('signupSuccess');
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data })
+        .then(function () {
+          signupForm.style.display = 'none';
+          successEl.textContent = "You're on the list \u2014 we'll email you the moment Drop 01 goes live.";
+        })
+        .catch(function () {
+          successEl.textContent = 'Something went wrong \u2014 please try again, or message us on WhatsApp instead.';
+        });
+    });
+  }
 })();
 </script>
+
+
+
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/chat-widget.js"></script>
 
 <script>
 if ('serviceWorker' in navigator) {

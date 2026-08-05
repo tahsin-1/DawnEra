@@ -20,264 +20,52 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --dawn-navy: #10192B;
-    --dawn-plum: #4A3B6B;
-    --dawn-coral: #E8623F;
-    --dawn-gold: #E8B84B;
-    --dawn-cream: #F5EFE6;
-    --dawn-ink: #2A2118;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--dawn-cream);
-    color: var(--dawn-ink);
-    line-height: 1.6;
-  }
-  .display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.03em; }
-  .mono { font-family: 'Space Mono', monospace; }
-  a { color: inherit; text-decoration: none; }
-
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 5%;
-    position: relative;
-    z-index: 10;
-  }
-  .nav__logo { font-size: 22px; letter-spacing: 0.08em; color: var(--dawn-cream); }
-  .nav__links { display: flex; gap: 32px; list-style: none; }
-  .nav__links a { font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--dawn-cream); opacity: 0.85; transition: opacity 0.2s; }
-  .nav__links a:hover { opacity: 1; }
-  .nav__links a:focus-visible { opacity: 1; outline: 1px solid var(--dawn-gold); outline-offset: 4px; }
-
-  .hero {
-    background: linear-gradient(to bottom, var(--dawn-navy) 0%, var(--dawn-navy) 40%, var(--dawn-plum) 65%, var(--dawn-coral) 88%, var(--dawn-gold) 100%);
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-  }
-  .hero__content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 5%;
-  }
-  .hero__title {
-    font-size: clamp(56px, 12vw, 128px);
-    color: var(--dawn-cream);
-    line-height: 0.9;
-    animation: rise 1s ease-out;
-  }
-  .hero__tagline {
-    font-size: clamp(13px, 2vw, 16px);
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--dawn-gold);
-    margin-top: 20px;
-    animation: rise 1s ease-out 0.15s backwards;
-  }
-  .hero__sub {
-    max-width: 460px;
-    margin-top: 24px;
-    color: var(--dawn-cream);
-    opacity: 0.75;
-    font-size: 15px;
-    animation: rise 1s ease-out 0.3s backwards;
-  }
-  .btn {
-    display: inline-block;
-    margin-top: 40px;
-    padding: 16px 40px;
-    background: var(--dawn-coral);
-    color: var(--dawn-navy);
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 600;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
-    animation: rise 1s ease-out 0.45s backwards;
-  }
-  .btn:hover { background: var(--dawn-gold); transform: translateY(-2px); }
-  .btn:focus-visible { background: var(--dawn-gold); outline: 2px solid var(--dawn-navy); outline-offset: 2px; }
-
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero__title, .hero__tagline, .hero__sub, .btn { animation: none; }
-  }
-
-  .marquee {
-    background: var(--dawn-navy);
-    overflow: hidden;
-    padding: 14px 0;
-    white-space: nowrap;
-  }
-  .marquee__track {
-    display: inline-block;
-    font-size: 13px;
-    letter-spacing: 0.15em;
-    color: var(--dawn-gold);
-    animation: scroll 22s linear infinite;
-  }
-  .marquee__track span { margin: 0 24px; }
-  @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee__track { animation: none; }
-  }
-
-  .drop {
-    padding: 100px 5%;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .drop__header { margin-bottom: 56px; }
-  .drop__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-coral); }
-  .drop__title { font-size: clamp(32px, 5vw, 48px); margin-top: 8px; }
-  .drop__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  .drop-card {
-    border: 1px solid rgba(42, 33, 24, 0.15);
-    padding: 32px 24px;
-    text-align: left;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-  }
-  .drop-card:hover, .drop-card:focus-within {
-    transform: translateY(-6px);
-    border-color: var(--dawn-coral);
-    box-shadow: 0 14px 28px rgba(16, 25, 43, 0.12);
-  }
-  .drop-card__num { font-size: 14px; color: var(--dawn-coral); }
-  .drop-card__name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.02em; margin-top: 12px; }
-  .drop-card__status { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-ink); opacity: 0.55; margin-top: 16px; }
-  .drop__more { text-align: center; margin-top: 48px; }
-  .drop__more-link { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-coral); border-bottom: 1px solid var(--dawn-coral); padding-bottom: 4px; transition: opacity 0.2s; }
-  .drop__more-link:hover, .drop__more-link:focus-visible { opacity: 0.65; }
-
-  .story {
-    background: var(--dawn-navy);
-    color: var(--dawn-cream);
-    padding: 100px 5%;
-  }
-  .story__inner { max-width: 640px; margin: 0 auto; text-align: center; }
-  .story__eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dawn-gold); }
-  .story__text { font-size: clamp(20px, 3vw, 28px); line-height: 1.5; margin-top: 20px; }
-  .story__link { display: inline-block; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dawn-gold); border-bottom: 1px solid var(--dawn-gold); padding-bottom: 4px; margin-top: 28px; transition: opacity 0.2s; }
-  .story__link:hover, .story__link:focus-visible { opacity: 0.7; }
-
-  .signup { padding: 100px 5%; text-align: center; }
-  .signup__title { font-size: clamp(32px, 5vw, 48px); }
-  .signup__sub { color: var(--dawn-ink); opacity: 0.7; margin-top: 12px; }
-  .signup__form {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 32px;
-    flex-wrap: wrap;
-  }
-  .signup__form input {
-    padding: 14px 18px;
-    border: 1px solid rgba(42, 33, 24, 0.25);
-    background: transparent;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    min-width: 260px;
-    border-radius: 2px;
-  }
-  .signup__form input:focus-visible { outline: 2px solid var(--dawn-coral); outline-offset: 2px; }
-  .signup__form .btn { margin-top: 0; }
-
-  .footer {
-    background: var(--dawn-navy);
-    color: var(--dawn-cream);
-    padding: 48px 5% 32px;
-    text-align: center;
-  }
-  .footer__logo { font-size: 20px; letter-spacing: 0.08em; }
-  .footer__tagline { font-size: 11px; letter-spacing: 0.15em; color: var(--dawn-gold); text-transform: uppercase; margin-top: 8px; }
-  .footer__meta { font-size: 12px; opacity: 0.5; margin-top: 24px; }
-
-  .whatsapp-btn {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 56px;
-    height: 56px;
-    background: #25D366;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.28);
-    z-index: 100;
-    transition: transform 0.2s;
-  }
-  .whatsapp-btn:hover, .whatsapp-btn:focus-visible {
-    transform: scale(1.08);
-    outline: 2px solid var(--dawn-navy);
-    outline-offset: 3px;
-  }
-
-  .reveal { opacity: 1; }
-  .js-ready .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-  }
-  .js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce) {
-    .js-ready .reveal { opacity: 1; transform: none; transition: none; }
-  }
-
-  @media (max-width: 900px) {
-    .drop__grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 640px) {
-    .nav__links { gap: 16px; }
-    .nav__links a { font-size: 11px; }
-    .drop__grid { grid-template-columns: 1fr; }
-    .signup__form { flex-direction: column; align-items: center; }
-    .signup__form input { width: 100%; max-width: 320px; }
-    .whatsapp-btn { width: 50px; height: 50px; bottom: 16px; right: 16px; }
-  }
-</style>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
+<div class="loader" id="loader"><div class="loader__mark">DAWN ERA</div></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<main id="main-content">
 <div class="hero">
-  <nav class="nav">
+  <nav class="nav" aria-label="Primary">
     <a href="index.html" class="nav__logo display">DAWN ERA</a>
-    <ul class="nav__links">
+    <button class="nav__burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+    <ul class="nav__links" id="navLinks">
       <li><a href="shop.html">Shop</a></li>
       <li><a href="story.html">Story</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
+    <div class="nav__right">
+      <button class="nav__icon-btn" id="wishToggle" aria-label="Wishlist">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        <span class="nav__badge" id="wishCount">0</span>
+      </button>
+      <button class="nav__icon-btn" id="cartToggle" aria-label="Cart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="nav__badge" id="cartCount">0</span>
+      </button>
+      <div class="theme-switcher">
+        <button class="nav__icon-btn" id="themeToggle" aria-label="Change theme" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20V2z"/></svg>
+        </button>
+        <div class="theme-switcher__panel" id="themePanel">
+          <button class="theme-opt is-active" data-theme="light"><span class="theme-opt__dot" style="background:#F5EFE6"></span>Light</button>
+          <button class="theme-opt" data-theme="dark"><span class="theme-opt__dot" style="background:#0D0D0E"></span>Dark Mode</button>
+          <button class="theme-opt" data-theme="golden"><span class="theme-opt__dot" style="background:#E8894A"></span>Golden Hour</button>
+          <button class="theme-opt" data-theme="luxury"><span class="theme-opt__dot" style="background:#D4AF37"></span>Luxury</button>
+          <button class="theme-opt" data-theme="minimal"><span class="theme-opt__dot" style="background:#1C1C1C"></span>Minimal / Focus</button>
+          <button class="theme-opt" data-theme="cyber"><span class="theme-opt__dot" style="background:#00E5FF"></span>Cyber / Street</button>
+        </div>
+      </div>
+    </div>
   </nav>
-  <div class="hero__content">
-    <h1 class="hero__title display">DAWN ERA</h1>
-    <p class="hero__tagline mono">Wear the dawn</p>
-    <p class="hero__sub">Clothing for the hour between night and morning — when the old day's over and the new one hasn't been claimed yet.</p>
-    <a href="contact.html" class="btn">Get early access</a>
-  </div>
+  <h1 class="hero__title display">DAWN ERA</h1>
+  <p class="hero__tagline mono">Wear the dawn</p>
+  <p class="hero__sub">Clothing for the hour between night and morning — when the old day's over and the new one hasn't been claimed yet.</p>
+  <a href="contact.html" class="btn">Get early access</a>
 </div>
 
 <div class="marquee" aria-hidden="true">
@@ -292,20 +80,41 @@
     <h2 class="drop__title display">The first light</h2>
   </div>
   <div class="drop__grid">
-    <div class="drop-card reveal" style="transition-delay:0s">
-      <p class="drop-card__num mono">01</p>
-      <p class="drop-card__name">The hoodie</p>
-      <p class="drop-card__status mono">Coming soon</p>
+    <div class="drop-card reveal" style="transition-delay:0s" data-product="hoodie">
+      <button class="drop-card__wish" aria-label="Add to wishlist" onclick="toggleWishlist('hoodie', this)">♡</button>
+      <div class="drop-card__top" onclick="openQuickView('hoodie')">
+        <p class="drop-card__num mono">01</p>
+        <p class="drop-card__name">The hoodie</p>
+        <p class="drop-card__status mono">Coming soon</p>
+      </div>
+      <div class="drop-card__row">
+        <select class="drop-card__size" aria-label="Select size"><option>S</option><option>M</option><option selected>L</option><option>XL</option></select>
+        <button class="drop-card__add" onclick="addToCart('hoodie', this)">Add</button>
+      </div>
     </div>
-    <div class="drop-card reveal" style="transition-delay:0.1s">
-      <p class="drop-card__num mono">02</p>
-      <p class="drop-card__name">The tee</p>
-      <p class="drop-card__status mono">Coming soon</p>
+    <div class="drop-card reveal" style="transition-delay:0.1s" data-product="tee">
+      <button class="drop-card__wish" aria-label="Add to wishlist" onclick="toggleWishlist('tee', this)">♡</button>
+      <div class="drop-card__top" onclick="openQuickView('tee')">
+        <p class="drop-card__num mono">02</p>
+        <p class="drop-card__name">The tee</p>
+        <p class="drop-card__status mono">Coming soon</p>
+      </div>
+      <div class="drop-card__row">
+        <select class="drop-card__size" aria-label="Select size"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
+        <button class="drop-card__add" onclick="addToCart('tee', this)">Add</button>
+      </div>
     </div>
-    <div class="drop-card reveal" style="transition-delay:0.2s">
-      <p class="drop-card__num mono">03</p>
-      <p class="drop-card__name">The cap</p>
-      <p class="drop-card__status mono">Coming soon</p>
+    <div class="drop-card reveal" style="transition-delay:0.2s" data-product="cap">
+      <button class="drop-card__wish" aria-label="Add to wishlist" onclick="toggleWishlist('cap', this)">♡</button>
+      <div class="drop-card__top" onclick="openQuickView('cap')">
+        <p class="drop-card__num mono">03</p>
+        <p class="drop-card__name">The cap</p>
+        <p class="drop-card__status mono">Coming soon</p>
+      </div>
+      <div class="drop-card__row">
+        <select class="drop-card__size" aria-label="Select size"><option selected>One size</option></select>
+        <button class="drop-card__add" onclick="addToCart('cap', this)">Add</button>
+      </div>
     </div>
   </div>
   <div class="drop__more reveal" style="transition-delay:0.3s">
@@ -327,39 +136,236 @@
   <a href="contact.html" class="btn reveal" style="transition-delay:0.16s">Get in touch</a>
 </section>
 
+</main>
+
 <footer class="footer">
   <p class="footer__logo display">DAWN ERA</p>
   <p class="footer__tagline mono">Wear the dawn</p>
   <p class="footer__meta">© 2026 Dawn Era. All rights reserved.</p>
 </footer>
 
-<a class="whatsapp-btn" href="https://wa.me/8801997307069?text=Hi%20Dawn%20Era!%20I'm%20interested%20in%20your%20pieces." target="_blank" rel="noopener" aria-label="Chat with Dawn Era on WhatsApp">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-  </svg>
-</a>
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
+<button class="ai-chat-btn" id="aiChatBtn" aria-label="Chat with Dawn Era Assistant" aria-expanded="false">
+  <span class="ai-chat-btn__ring"></span>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--dawn-cream)"><path d="M12 2 L14 9 L21 12 L14 15 L12 22 L10 15 L3 12 L10 9 Z"/></svg>
+</button>
+
+<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-label="Dawn Era Assistant chat">
+  <div class="ai-chat__header">
+    <div class="ai-chat__header-info">
+      <div class="ai-chat__avatar">✦</div>
+      <div>
+        <p class="ai-chat__name">Dawn Era Assistant</p>
+        <p class="ai-chat__status"><span class="ai-chat__dot"></span>Online</p>
+      </div>
+    </div>
+    <button class="ai-chat__close" id="aiChatClose" aria-label="Close chat">✕</button>
+  </div>
+  <div class="ai-chat__body" id="aiChatBody"></div>
+  <div class="ai-chat__quick" id="aiChatQuick"></div>
+  <form class="ai-chat__input" id="aiChatForm">
+    <input type="text" id="aiChatInput" placeholder="Ask me anything..." aria-label="Type a message" autocomplete="off">
+    <button type="submit" aria-label="Send"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </form>
+</div>
+
+<div class="cw-backdrop" id="cwBackdrop"></div>
+<div class="cw-drawer" id="cwDrawer" role="dialog" aria-label="Cart and wishlist">
+  <div class="cw-drawer__head">
+    <div class="cw-tabs">
+      <button class="cw-tab is-active display" data-tab="cart">Cart</button>
+      <button class="cw-tab display" data-tab="wishlist">Wishlist</button>
+    </div>
+    <button class="cw-close" id="cwClose" aria-label="Close">✕</button>
+  </div>
+  <div class="cw-drawer__items" id="cwItems"></div>
+</div>
+
+<div class="qv-backdrop" id="qvBackdrop">
+  <div class="qv-modal">
+    <div class="qv-handle"></div>
+    <button class="qv-close" id="qvClose" aria-label="Close">✕</button>
+    <div class="qv-image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
+    <p class="qv-cat mono" id="qvCat"></p>
+    <p class="qv-name" id="qvName"></p>
+    <p class="qv-status mono" id="qvStatus">Coming soon</p>
+    <div class="qv-row">
+      <select class="drop-card__size" id="qvSize" aria-label="Select size"></select>
+      <button class="drop-card__add" id="qvAdd">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/storage.js"></script>
 <script>
 (function () {
   var root = document.documentElement;
   root.classList.add('js-ready');
+
+  var PRODUCTS = {
+    hoodie: { name: 'The Hoodie', category: 'Outerwear', sizes: ['S','M','L','XL'] },
+    tee: { name: 'The Tee', category: 'Tops', sizes: ['S','M','L','XL'] },
+    cap: { name: 'The Cap', category: 'Accessories', sizes: ['One size'] }
+  };
+
+  /* Loader */
+  window.addEventListener('load', function () {
+    setTimeout(function () { document.getElementById('loader').classList.add('is-hidden'); }, 500);
+  });
+
+  /* Reveal on scroll */
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var reveals = document.querySelectorAll('.reveal');
   if (prefersReduced || !('IntersectionObserver' in window)) {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
-    return;
+  } else {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    reveals.forEach(function (el) { obs.observe(el); });
   }
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
+
+  /* Scroll progress + back to top */
+  var progressBar = document.getElementById('scrollProgress');
+  var backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', function () {
+    var h = document.documentElement;
+    var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+    if (h.scrollTop > 500) { backToTop.classList.add('is-visible'); } else { backToTop.classList.remove('is-visible'); }
+  });
+  backToTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' }); });
+
+  /* ---- Theme switcher ---- */
+  var themeToggle = document.getElementById('themeToggle');
+  var themePanel = document.getElementById('themePanel');
+  var themeOpts = document.querySelectorAll('.theme-opt');
+  function applyTheme(name) {
+    if (name === 'light') { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', name); }
+    DawnStorage.setTheme(name);
+    themeOpts.forEach(function (o) { o.classList.toggle('is-active', o.getAttribute('data-theme') === name); });
+  }
+  var savedTheme = 'light';
+  savedTheme = DawnStorage.getTheme();
+  applyTheme(savedTheme);
+
+  themeToggle.addEventListener('click', function () {
+    var open = themePanel.classList.toggle('is-open');
+    themeToggle.setAttribute('aria-expanded', open);
+  });
+  themeOpts.forEach(function (opt) {
+    opt.addEventListener('click', function () { applyTheme(opt.getAttribute('data-theme')); themePanel.classList.remove('is-open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.theme-switcher')) themePanel.classList.remove('is-open');
+  });
+
+  /* ---- Cart + Wishlist ---- */
+  function getList(key) { return DawnStorage.get(key); }
+  function setList(key, list) { DawnStorage.set(key, list); renderCounts(); renderDrawer(); }
+  function renderCounts() {
+    document.getElementById('cartCount').textContent = getList('dawnera_cart').length;
+    document.getElementById('wishCount').textContent = getList('dawnera_wishlist').length;
+  }
+
+  window.addToCart = function (id, btnEl) {
+    var p = PRODUCTS[id];
+    var size = btnEl.closest('.drop-card, .qv-modal').querySelector('select').value;
+    var cart = getList('dawnera_cart');
+    cart.push({ id: id, name: p.name, size: size });
+    setList('dawnera_cart', cart);
+    var old = btnEl.textContent;
+    btnEl.textContent = 'Added ✓';
+    setTimeout(function () { btnEl.textContent = old; }, 1100);
+    openDrawer('cart');
+  };
+
+  window.toggleWishlist = function (id, btnEl) {
+    var p = PRODUCTS[id];
+    var wish = getList('dawnera_wishlist');
+    var idx = wish.findIndex(function (w) { return w.id === id; });
+    if (idx > -1) { wish.splice(idx, 1); btnEl.classList.remove('is-active'); btnEl.textContent = '♡'; }
+    else { wish.push({ id: id, name: p.name }); btnEl.classList.add('is-active'); btnEl.textContent = '♥'; }
+    setList('dawnera_wishlist', wish);
+  };
+
+  function renderDrawer() {
+    var activeTab = document.querySelector('.cw-tab.is-active').getAttribute('data-tab');
+    var itemsEl = document.getElementById('cwItems');
+    var list = getList(activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist');
+    if (list.length === 0) {
+      itemsEl.innerHTML = '<p class="cw-empty">' + (activeTab === 'cart' ? 'Your cart is empty.' : 'Your wishlist is empty.') + '</p>';
+      return;
+    }
+    itemsEl.innerHTML = list.map(function (item, i) {
+      var meta = activeTab === 'cart' ? ('Size ' + item.size) : 'Saved for later';
+      return '<div class="cw-item"><div><p class="cw-item__name">' + item.name + '</p><p class="cw-item__meta">' + meta + '</p></div><button class="cw-item__remove" data-idx="' + i + '" aria-label="Remove">✕</button></div>';
+    }).join('');
+    itemsEl.querySelectorAll('.cw-item__remove').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist';
+        var arr = getList(key);
+        arr.splice(parseInt(btn.getAttribute('data-idx'), 10), 1);
+        setList(key, arr);
+      });
     });
-  }, { threshold: 0.15 });
-  reveals.forEach(function (el) { observer.observe(el); });
+  }
+
+  var cwDrawer = document.getElementById('cwDrawer');
+  var cwBackdrop = document.getElementById('cwBackdrop');
+  function openDrawer(tab) {
+    document.querySelectorAll('.cw-tab').forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-tab') === tab); });
+    renderDrawer();
+    cwDrawer.classList.add('is-open'); cwBackdrop.classList.add('is-open');
+  }
+  function closeDrawer() { cwDrawer.classList.remove('is-open'); cwBackdrop.classList.remove('is-open'); }
+  document.getElementById('cartToggle').addEventListener('click', function () { openDrawer('cart'); });
+  document.getElementById('wishToggle').addEventListener('click', function () { openDrawer('wishlist'); });
+  document.getElementById('cwClose').addEventListener('click', closeDrawer);
+  cwBackdrop.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.cw-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () { openDrawer(tab.getAttribute('data-tab')); });
+  });
+
+  /* ---- Quick view ---- */
+  var qvBackdrop = document.getElementById('qvBackdrop');
+  var currentQvId = null;
+  window.openQuickView = function (id) {
+    var p = PRODUCTS[id];
+    currentQvId = id;
+    document.getElementById('qvCat').textContent = p.category;
+    document.getElementById('qvName').textContent = p.name;
+    var sizeSel = document.getElementById('qvSize');
+    sizeSel.innerHTML = p.sizes.map(function (s) { return '<option>' + s + '</option>'; }).join('');
+    qvBackdrop.classList.add('is-open');
+  };
+  document.getElementById('qvClose').addEventListener('click', function () { qvBackdrop.classList.remove('is-open'); });
+  qvBackdrop.addEventListener('click', function (e) { if (e.target === qvBackdrop) qvBackdrop.classList.remove('is-open'); });
+  document.getElementById('qvAdd').addEventListener('click', function () {
+    if (currentQvId) { addToCart(currentQvId, this); }
+    setTimeout(function () { qvBackdrop.classList.remove('is-open'); }, 500);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeDrawer(); qvBackdrop.classList.remove('is-open'); themePanel.classList.remove('is-open'); }
+  });
+
+  /* Restore wishlist heart states */
+  var savedWish = getList('dawnera_wishlist');
+  savedWish.forEach(function (w) {
+    var btn = document.querySelector('.drop-card[data-product="' + w.id + '"] .drop-card__wish');
+    if (btn) { btn.classList.add('is-active'); btn.textContent = '♥'; }
+  });
+
+  renderCounts();
 })();
 </script>
+
+
+
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/chat-widget.js"></script>
 
 <script>
 if ('serviceWorker' in navigator) {
