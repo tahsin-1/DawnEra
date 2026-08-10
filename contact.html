@@ -13,6 +13,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Dawn Era">
 <meta property="og:title" content="Contact — Dawn Era">
+<meta property="og:description" content="Get in touch with Dawn Era — WhatsApp us directly or join the early access list.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dawnera.netlify.app/contact.html">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +75,7 @@
     </div>
     <p class="contact-card__title">WhatsApp</p>
     <p class="contact-card__desc">Fastest way to reach us — usually replies within a few hours.</p>
-    <a href="https://wa.me/8801997307069?text=Hi%20Dawn%20Era!" target="_blank" rel="noopener" class="btn btn--solid">Message us</a>
+    <a href="https://wa.me/8801997307069?text=Hi%20Dawn%20Era!" data-wa-link="Hi Dawn Era!" target="_blank" rel="noopener" class="btn btn--solid">Message us</a>
   </div>
   <div class="contact-card contact-card--mail reveal" style="transition-delay:0.1s">
     <div class="contact-card__icon">
@@ -123,7 +126,7 @@
   <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--dawn-cream)"><path d="M12 2 L14 9 L21 12 L14 15 L12 22 L10 15 L3 12 L10 9 Z"/></svg>
 </button>
 
-<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-label="Dawn Era Assistant chat">
+<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-modal="true" aria-label="Dawn Era Assistant chat">
   <div class="ai-chat__header">
     <div class="ai-chat__header-info">
       <div class="ai-chat__avatar">✦</div>
@@ -145,7 +148,7 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <div class="cw-backdrop" id="cwBackdrop"></div>
-<div class="cw-drawer" id="cwDrawer" role="dialog" aria-label="Cart and wishlist">
+<div class="cw-drawer" id="cwDrawer" role="dialog" aria-modal="true" aria-label="Cart and wishlist">
   <div class="cw-drawer__head">
     <div class="cw-tabs">
       <button class="cw-tab is-active display" data-tab="cart">Cart</button>
@@ -157,88 +160,18 @@
 </div>
 
 <script src="assets/js/storage.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+DawnApp.init({});
+</script>
+
+
+
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/chat-widget.js"></script>
+
 <script>
 (function () {
-  var root = document.documentElement;
-  root.classList.add('js-ready');
-
-  window.addEventListener('load', function () { setTimeout(function () { document.getElementById('loader').classList.add('is-hidden'); }, 400); });
-
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var reveals = document.querySelectorAll('.reveal');
-  if (prefersReduced || !('IntersectionObserver' in window)) {
-    reveals.forEach(function (el) { el.classList.add('is-visible'); });
-  } else {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
-      });
-    }, { threshold: 0.15 });
-    reveals.forEach(function (el) { observer.observe(el); });
-  }
-
-  var progressBar = document.getElementById('scrollProgress');
-  var backToTop = document.getElementById('backToTop');
-  window.addEventListener('scroll', function () {
-    var h = document.documentElement;
-    progressBar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-    backToTop.classList.toggle('is-visible', h.scrollTop > 500);
-  });
-  backToTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' }); });
-
-  var themeToggle = document.getElementById('themeToggle');
-  var themePanel = document.getElementById('themePanel');
-  var themeOpts = document.querySelectorAll('.theme-opt');
-  function applyTheme(name) {
-    if (name === 'light') { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', name); }
-    DawnStorage.setTheme(name);
-    themeOpts.forEach(function (o) { o.classList.toggle('is-active', o.getAttribute('data-theme') === name); });
-  }
-  var savedTheme = 'light';
-  savedTheme = DawnStorage.getTheme();
-  applyTheme(savedTheme);
-  themeToggle.addEventListener('click', function () { themeToggle.setAttribute('aria-expanded', themePanel.classList.toggle('is-open')); });
-  themeOpts.forEach(function (opt) { opt.addEventListener('click', function () { applyTheme(opt.getAttribute('data-theme')); themePanel.classList.remove('is-open'); }); });
-  document.addEventListener('click', function (e) { if (!e.target.closest('.theme-switcher')) themePanel.classList.remove('is-open'); });
-
-  function getList(key) { return DawnStorage.get(key); }
-  function setList(key, list) { DawnStorage.set(key, list); renderCounts(); renderDrawer(); }
-  function renderCounts() {
-    document.getElementById('cartCount').textContent = getList('dawnera_cart').length;
-    document.getElementById('wishCount').textContent = getList('dawnera_wishlist').length;
-  }
-  function renderDrawer() {
-    var activeTab = document.querySelector('.cw-tab.is-active').getAttribute('data-tab');
-    var itemsEl = document.getElementById('cwItems');
-    var list = getList(activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist');
-    if (list.length === 0) { itemsEl.innerHTML = '<p class="cw-empty">' + (activeTab === 'cart' ? 'Your cart is empty.' : 'Your wishlist is empty.') + '</p>'; return; }
-    itemsEl.innerHTML = list.map(function (item, i) {
-      var meta = activeTab === 'cart' ? ('Size ' + item.size) : 'Saved for later';
-      return '<div class="cw-item"><div><p class="cw-item__name">' + item.name + '</p><p class="cw-item__meta">' + meta + '</p></div><button class="cw-item__remove" data-idx="' + i + '" aria-label="Remove">✕</button></div>';
-    }).join('');
-    itemsEl.querySelectorAll('.cw-item__remove').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var key = activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist';
-        var arr = getList(key); arr.splice(parseInt(btn.getAttribute('data-idx'), 10), 1); setList(key, arr);
-      });
-    });
-  }
-  var cwDrawer = document.getElementById('cwDrawer');
-  var cwBackdrop = document.getElementById('cwBackdrop');
-  function openDrawer(tab) {
-    document.querySelectorAll('.cw-tab').forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-tab') === tab); });
-    renderDrawer(); cwDrawer.classList.add('is-open'); cwBackdrop.classList.add('is-open');
-  }
-  function closeDrawer() { cwDrawer.classList.remove('is-open'); cwBackdrop.classList.remove('is-open'); }
-  document.getElementById('cartToggle').addEventListener('click', function () { openDrawer('cart'); });
-  document.getElementById('wishToggle').addEventListener('click', function () { openDrawer('wishlist'); });
-  document.getElementById('cwClose').addEventListener('click', closeDrawer);
-  cwBackdrop.addEventListener('click', closeDrawer);
-  document.querySelectorAll('.cw-tab').forEach(function (tab) { tab.addEventListener('click', function () { openDrawer(tab.getAttribute('data-tab')); }); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeDrawer(); themePanel.classList.remove('is-open'); } });
-
-  renderCounts();
-
   /* Countdown — PLACEHOLDER target date, update before launch */
   var COUNTDOWN_TARGET = new Date('2026-09-15T00:00:00+06:00').getTime();
   var cd = { d: document.getElementById('cdDays'), h: document.getElementById('cdHours'), m: document.getElementById('cdMins'), s: document.getElementById('cdSecs') };
@@ -275,11 +208,6 @@
   }
 })();
 </script>
-
-
-
-<script src="assets/js/nav.js"></script>
-<script src="assets/js/chat-widget.js"></script>
 
 <script>
 if ('serviceWorker' in navigator) {

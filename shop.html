@@ -13,6 +13,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Dawn Era">
 <meta property="og:title" content="Shop — Dawn Era">
+<meta property="og:description" content="Shop the Dawn Era Drop 01 collection.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dawnera.netlify.app/shop.html">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,6 +70,7 @@
 <div class="search-bar">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
   <input type="text" id="searchInput" placeholder="Search the collection..." aria-label="Search products">
+  <p id="searchResultsStatus" class="visually-hidden" role="status" aria-live="polite"></p>
 </div>
 
 <section class="shop-section">
@@ -79,80 +83,80 @@
 
   <div class="product-grid" id="productGrid">
     <div class="product-card reveal" data-category="tops" data-product="horizonTee" style="transition-delay:0s">
-      <button class="product-card__wish" aria-label="Wishlist" onclick="toggleWishlist('horizonTee', this)">♡</button>
-      <div class="product-card__image" onclick="openQuickView('horizonTee')"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
+      <button class="product-card__wish" aria-label="Wishlist">♡</button>
+      <div class="product-card__image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
       <div class="product-card__body">
         <p class="product-card__cat mono">Tops</p>
-        <p class="product-card__name" onclick="openQuickView('horizonTee')">The Horizon Tee</p>
+        <p class="product-card__name">The Horizon Tee</p>
         <p class="product-card__price mono">Price TBA</p>
         <div class="product-card__row">
           <select class="product-card__size" aria-label="Size"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
-          <button class="product-card__add" onclick="addToCart('horizonTee', this)">Add</button>
+          <button class="product-card__add">Add</button>
         </div>
       </div>
     </div>
     <div class="product-card reveal" data-category="tops" data-product="dawnTee" style="transition-delay:0.05s">
-      <button class="product-card__wish" aria-label="Wishlist" onclick="toggleWishlist('dawnTee', this)">♡</button>
-      <div class="product-card__image" onclick="openQuickView('dawnTee')"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
+      <button class="product-card__wish" aria-label="Wishlist">♡</button>
+      <div class="product-card__image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
       <div class="product-card__body">
         <p class="product-card__cat mono">Tops</p>
-        <p class="product-card__name" onclick="openQuickView('dawnTee')">The Dawn Tee</p>
+        <p class="product-card__name">The Dawn Tee</p>
         <p class="product-card__price mono">Price TBA</p>
         <div class="product-card__row">
           <select class="product-card__size" aria-label="Size"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
-          <button class="product-card__add" onclick="addToCart('dawnTee', this)">Add</button>
+          <button class="product-card__add">Add</button>
         </div>
       </div>
     </div>
     <div class="product-card reveal" data-category="tops" data-product="polo" style="transition-delay:0.1s">
-      <button class="product-card__wish" aria-label="Wishlist" onclick="toggleWishlist('polo', this)">♡</button>
-      <div class="product-card__image" onclick="openQuickView('polo')"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
+      <button class="product-card__wish" aria-label="Wishlist">♡</button>
+      <div class="product-card__image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
       <div class="product-card__body">
         <p class="product-card__cat mono">Tops</p>
-        <p class="product-card__name" onclick="openQuickView('polo')">The First Light Polo</p>
+        <p class="product-card__name">The First Light Polo</p>
         <p class="product-card__price mono">Price TBA</p>
         <div class="product-card__row">
           <select class="product-card__size" aria-label="Size"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
-          <button class="product-card__add" onclick="addToCart('polo', this)">Add</button>
+          <button class="product-card__add">Add</button>
         </div>
       </div>
     </div>
     <div class="product-card reveal" data-category="tops" data-product="hoodie" style="transition-delay:0.15s">
-      <button class="product-card__wish" aria-label="Wishlist" onclick="toggleWishlist('hoodie', this)">♡</button>
-      <div class="product-card__image" onclick="openQuickView('hoodie')"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
+      <button class="product-card__wish" aria-label="Wishlist">♡</button>
+      <div class="product-card__image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
       <div class="product-card__body">
         <p class="product-card__cat mono">Tops</p>
-        <p class="product-card__name" onclick="openQuickView('hoodie')">The Era Hoodie</p>
+        <p class="product-card__name">The Era Hoodie</p>
         <p class="product-card__price mono">Price TBA</p>
         <div class="product-card__row">
           <select class="product-card__size" aria-label="Size"><option>S</option><option>M</option><option selected>L</option><option>XL</option></select>
-          <button class="product-card__add" onclick="addToCart('hoodie', this)">Add</button>
+          <button class="product-card__add">Add</button>
         </div>
       </div>
     </div>
     <div class="product-card reveal" data-category="bottoms" data-product="denim" style="transition-delay:0.2s">
-      <button class="product-card__wish" aria-label="Wishlist" onclick="toggleWishlist('denim', this)">♡</button>
-      <div class="product-card__image" onclick="openQuickView('denim')"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
+      <button class="product-card__wish" aria-label="Wishlist">♡</button>
+      <div class="product-card__image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
       <div class="product-card__body">
         <p class="product-card__cat mono">Bottoms</p>
-        <p class="product-card__name" onclick="openQuickView('denim')">The Midnight Denim</p>
+        <p class="product-card__name">The Midnight Denim</p>
         <p class="product-card__price mono">Price TBA</p>
         <div class="product-card__row">
           <select class="product-card__size" aria-label="Size"><option>30</option><option selected>32</option><option>34</option><option>36</option></select>
-          <button class="product-card__add" onclick="addToCart('denim', this)">Add</button>
+          <button class="product-card__add">Add</button>
         </div>
       </div>
     </div>
     <div class="product-card reveal" data-category="accessories" data-product="cap" style="transition-delay:0.25s">
-      <button class="product-card__wish" aria-label="Wishlist" onclick="toggleWishlist('cap', this)">♡</button>
-      <div class="product-card__image" onclick="openQuickView('cap')"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
+      <button class="product-card__wish" aria-label="Wishlist">♡</button>
+      <div class="product-card__image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
       <div class="product-card__body">
         <p class="product-card__cat mono">Accessories</p>
-        <p class="product-card__name" onclick="openQuickView('cap')">The Dawn Cap</p>
+        <p class="product-card__name">The Dawn Cap</p>
         <p class="product-card__price mono">Price TBA</p>
         <div class="product-card__row">
           <select class="product-card__size" aria-label="Size"><option selected>One size</option></select>
-          <button class="product-card__add" onclick="addToCart('cap', this)">Add</button>
+          <button class="product-card__add">Add</button>
         </div>
       </div>
     </div>
@@ -173,7 +177,7 @@
   <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--dawn-cream)"><path d="M12 2 L14 9 L21 12 L14 15 L12 22 L10 15 L3 12 L10 9 Z"/></svg>
 </button>
 
-<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-label="Dawn Era Assistant chat">
+<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-modal="true" aria-label="Dawn Era Assistant chat">
   <div class="ai-chat__header">
     <div class="ai-chat__header-info">
       <div class="ai-chat__avatar">✦</div>
@@ -193,7 +197,7 @@
 </div>
 
 <div class="cw-backdrop" id="cwBackdrop"></div>
-<div class="cw-drawer" id="cwDrawer" role="dialog" aria-label="Cart and wishlist">
+<div class="cw-drawer" id="cwDrawer" role="dialog" aria-modal="true" aria-label="Cart and wishlist">
   <div class="cw-drawer__head">
     <div class="cw-tabs">
       <button class="cw-tab is-active display" data-tab="cart">Cart</button>
@@ -205,7 +209,7 @@
 </div>
 
 <div class="qv-backdrop" id="qvBackdrop">
-  <div class="qv-modal">
+  <div class="qv-modal" role="dialog" aria-modal="true" aria-label="Quick view">
     <div class="qv-handle"></div>
     <button class="qv-close" id="qvClose" aria-label="Close">✕</button>
     <div class="qv-image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
@@ -236,7 +240,7 @@
 </div>
 
 <div class="qv-backdrop" id="sizeGuideBackdrop">
-  <div class="qv-modal" style="max-width:420px;">
+  <div class="qv-modal" role="dialog" aria-modal="true" aria-label="Size guide" style="max-width:420px;">
     <div class="qv-handle"></div>
     <button class="qv-close" id="sizeGuideClose" aria-label="Close">✕</button>
     <p class="qv-name" style="margin-bottom:4px;">Size Guide</p>
@@ -255,128 +259,42 @@
 </div>
 
 <script src="assets/js/storage.js"></script>
+<script src="assets/js/app.js"></script>
 <script>
-(function () {
-  var root = document.documentElement;
-  root.classList.add('js-ready');
-
-  var PRODUCTS = {
+DawnApp.init({
+  products: {
     horizonTee: { name: 'The Horizon Tee', category: 'Tops', sizes: ['S','M','L','XL'] },
     dawnTee: { name: 'The Dawn Tee', category: 'Tops', sizes: ['S','M','L','XL'] },
     polo: { name: 'The First Light Polo', category: 'Tops', sizes: ['S','M','L','XL'] },
     hoodie: { name: 'The Era Hoodie', category: 'Tops', sizes: ['S','M','L','XL'] },
     denim: { name: 'The Midnight Denim', category: 'Bottoms', sizes: ['30','32','34','36'] },
     cap: { name: 'The Dawn Cap', category: 'Accessories', sizes: ['One size'] }
-  };
-
-  window.addEventListener('load', function () { setTimeout(function () { document.getElementById('loader').classList.add('is-hidden'); }, 400); });
-
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var reveals = document.querySelectorAll('.reveal');
-  if (prefersReduced || !('IntersectionObserver' in window)) { reveals.forEach(function (el) { el.classList.add('is-visible'); }); }
-  else {
-    var obs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } }); }, { threshold: 0.15 });
-    reveals.forEach(function (el) { obs.observe(el); });
   }
+});
+</script>
 
-  var progressBar = document.getElementById('scrollProgress');
-  var backToTop = document.getElementById('backToTop');
-  window.addEventListener('scroll', function () {
-    var h = document.documentElement;
-    progressBar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-    backToTop.classList.toggle('is-visible', h.scrollTop > 500);
-  });
-  backToTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' }); });
 
-  var themeToggle = document.getElementById('themeToggle');
-  var themePanel = document.getElementById('themePanel');
-  var themeOpts = document.querySelectorAll('.theme-opt');
-  function applyTheme(name) {
-    if (name === 'light') { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', name); }
-    DawnStorage.setTheme(name);
-    themeOpts.forEach(function (o) { o.classList.toggle('is-active', o.getAttribute('data-theme') === name); });
-  }
-  var savedTheme = 'light';
-  savedTheme = DawnStorage.getTheme();
-  applyTheme(savedTheme);
-  themeToggle.addEventListener('click', function () { themeToggle.setAttribute('aria-expanded', themePanel.classList.toggle('is-open')); });
-  themeOpts.forEach(function (opt) { opt.addEventListener('click', function () { applyTheme(opt.getAttribute('data-theme')); themePanel.classList.remove('is-open'); }); });
-  document.addEventListener('click', function (e) { if (!e.target.closest('.theme-switcher')) themePanel.classList.remove('is-open'); });
 
-  function getList(key) { return DawnStorage.get(key); }
-  function setList(key, list) { DawnStorage.set(key, list); renderCounts(); renderDrawer(); }
-  function renderCounts() {
-    document.getElementById('cartCount').textContent = getList('dawnera_cart').length;
-    document.getElementById('wishCount').textContent = getList('dawnera_wishlist').length;
-  }
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/chat-widget.js"></script>
 
-  window.addToCart = function (id, btnEl) {
-    var p = PRODUCTS[id];
-    var size = btnEl.closest('.product-card, .qv-modal').querySelector('select').value;
-    var cart = getList('dawnera_cart');
-    cart.push({ id: id, name: p.name, size: size });
-    setList('dawnera_cart', cart);
-    var old = btnEl.textContent; btnEl.textContent = 'Added ✓';
-    setTimeout(function () { btnEl.textContent = old; }, 1100);
-    openDrawer('cart');
-  };
-
-  window.toggleWishlist = function (id, btnEl) {
-    var p = PRODUCTS[id];
-    var wish = getList('dawnera_wishlist');
-    var idx = wish.findIndex(function (w) { return w.id === id; });
-    if (idx > -1) { wish.splice(idx, 1); btnEl.classList.remove('is-active'); btnEl.textContent = '♡'; }
-    else { wish.push({ id: id, name: p.name }); btnEl.classList.add('is-active'); btnEl.textContent = '♥'; }
-    setList('dawnera_wishlist', wish);
-  };
-
-  function renderDrawer() {
-    var activeTab = document.querySelector('.cw-tab.is-active').getAttribute('data-tab');
-    var itemsEl = document.getElementById('cwItems');
-    var list = getList(activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist');
-    if (list.length === 0) { itemsEl.innerHTML = '<p class="cw-empty">' + (activeTab === 'cart' ? 'Your cart is empty.' : 'Your wishlist is empty.') + '</p>'; return; }
-    itemsEl.innerHTML = list.map(function (item, i) {
-      var meta = activeTab === 'cart' ? ('Size ' + item.size) : 'Saved for later';
-      return '<div class="cw-item"><div><p class="cw-item__name">' + item.name + '</p><p class="cw-item__meta">' + meta + '</p></div><button class="cw-item__remove" data-idx="' + i + '" aria-label="Remove">✕</button></div>';
-    }).join('');
-    itemsEl.querySelectorAll('.cw-item__remove').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var key = activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist';
-        var arr = getList(key); arr.splice(parseInt(btn.getAttribute('data-idx'), 10), 1); setList(key, arr);
-      });
-    });
-  }
-
-  var cwDrawer = document.getElementById('cwDrawer');
-  var cwBackdrop = document.getElementById('cwBackdrop');
-  function openDrawer(tab) {
-    document.querySelectorAll('.cw-tab').forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-tab') === tab); });
-    renderDrawer(); cwDrawer.classList.add('is-open'); cwBackdrop.classList.add('is-open');
-  }
-  function closeDrawer() { cwDrawer.classList.remove('is-open'); cwBackdrop.classList.remove('is-open'); }
-  document.getElementById('cartToggle').addEventListener('click', function () { openDrawer('cart'); });
-  document.getElementById('wishToggle').addEventListener('click', function () { openDrawer('wishlist'); });
-  document.getElementById('cwClose').addEventListener('click', closeDrawer);
-  cwBackdrop.addEventListener('click', closeDrawer);
-  document.querySelectorAll('.cw-tab').forEach(function (tab) { tab.addEventListener('click', function () { openDrawer(tab.getAttribute('data-tab')); }); });
-
-  var qvBackdrop = document.getElementById('qvBackdrop');
-  var currentQvId = null;
-  window.openQuickView = function (id) {
-    var p = PRODUCTS[id]; currentQvId = id;
-    document.getElementById('qvCat').textContent = p.category;
-    document.getElementById('qvName').textContent = p.name;
-    document.getElementById('qvSize').innerHTML = p.sizes.map(function (s) { return '<option>' + s + '</option>'; }).join('');
-    qvBackdrop.classList.add('is-open');
-  };
-  document.getElementById('qvClose').addEventListener('click', function () { qvBackdrop.classList.remove('is-open'); });
-  qvBackdrop.addEventListener('click', function (e) { if (e.target === qvBackdrop) qvBackdrop.classList.remove('is-open'); });
-  document.getElementById('qvAdd').addEventListener('click', function () { if (currentQvId) addToCart(currentQvId, this); setTimeout(function () { qvBackdrop.classList.remove('is-open'); }, 500); });
-
+<script>
+(function () {
   var sizeGuideBackdrop = document.getElementById('sizeGuideBackdrop');
-  document.getElementById('qvSizeGuideBtn').addEventListener('click', function () { sizeGuideBackdrop.classList.add('is-open'); });
-  document.getElementById('sizeGuideClose').addEventListener('click', function () { sizeGuideBackdrop.classList.remove('is-open'); });
-  sizeGuideBackdrop.addEventListener('click', function (e) { if (e.target === sizeGuideBackdrop) sizeGuideBackdrop.classList.remove('is-open'); });
+  var sizeGuideRelease = null;
+  function closeSizeGuide() {
+    if (!sizeGuideBackdrop.classList.contains('is-open')) return;
+    sizeGuideBackdrop.classList.remove('is-open');
+    if (sizeGuideRelease) { sizeGuideRelease(); sizeGuideRelease = null; }
+    DawnApp.popModal(closeSizeGuide);
+  }
+  document.getElementById('qvSizeGuideBtn').addEventListener('click', function () {
+    sizeGuideBackdrop.classList.add('is-open');
+    sizeGuideRelease = DawnApp.trapFocus(sizeGuideBackdrop);
+    DawnApp.pushModal(closeSizeGuide);
+  });
+  document.getElementById('sizeGuideClose').addEventListener('click', closeSizeGuide);
+  sizeGuideBackdrop.addEventListener('click', function (e) { if (e.target === sizeGuideBackdrop) closeSizeGuide(); });
 
   var careTrigger = document.getElementById('careTrigger');
   var carePanel = document.getElementById('carePanel');
@@ -386,7 +304,8 @@
     careTrigger.querySelector('.qv-accordion__icon').textContent = isOpen ? '\u2212' : '+';
   });
 
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeDrawer(); qvBackdrop.classList.remove('is-open'); sizeGuideBackdrop.classList.remove('is-open'); themePanel.classList.remove('is-open'); } });
+  // Escape is handled centrally by app.js's shared modal stack (closeSizeGuide
+  // is pushed/popped above), so no separate listener is needed here.
 
   var tabs = document.querySelectorAll('.filter-tab');
   var cards = document.querySelectorAll('#productGrid .product-card');
@@ -406,24 +325,13 @@
     var existingMsg = grid.querySelector('.no-results');
     if (visibleCount === 0) { if (!existingMsg) { grid.insertAdjacentHTML('beforeend', '<p class="no-results">No pieces match your search.</p>'); } }
     else if (existingMsg) { existingMsg.remove(); }
+    var resultsStatus = document.getElementById('searchResultsStatus');
+    if (resultsStatus) resultsStatus.textContent = visibleCount + (visibleCount === 1 ? ' piece' : ' pieces') + ' shown';
   }
   tabs.forEach(function (tab) { tab.addEventListener('click', function () { tabs.forEach(function (t) { t.classList.remove('is-active'); }); tab.classList.add('is-active'); currentFilter = tab.getAttribute('data-filter'); applyFilters(); }); });
   document.getElementById('searchInput').addEventListener('input', applyFilters);
-
-  var savedWish = getList('dawnera_wishlist');
-  savedWish.forEach(function (w) {
-    var btn = document.querySelector('.product-card[data-product="' + w.id + '"] .product-card__wish');
-    if (btn) { btn.classList.add('is-active'); btn.textContent = '♥'; }
-  });
-
-  renderCounts();
 })();
 </script>
-
-
-
-<script src="assets/js/nav.js"></script>
-<script src="assets/js/chat-widget.js"></script>
 
 <script>
 if ('serviceWorker' in navigator) {

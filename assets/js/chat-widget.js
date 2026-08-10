@@ -1,6 +1,7 @@
 /* Dawn Era — AI assistant widget.
    Extracted unchanged from the four pages (it was byte-identical on all of
-   them) into one shared file so it only has to be maintained once. */
+   them) into one shared file so it only has to be maintained once.
+   Requires app.js to be loaded first (uses DawnApp.buildWaLink). */
 (function () {
   var KB = [
     { k: ['drop','launch','when','release'], r: "Drop 01 is currently in the works — hoodie, tee, and cap to start. Join the early-access list on our <a href='contact.html'>Contact page</a> to be first to know the exact date!" },
@@ -8,10 +9,10 @@
     { k: ['size','sizing','fit','measurement'], r: "Each piece has a size selector (S–XL) right on the product card. For exact measurements once Drop 01 ships, just ask to be connected to the team." },
     { k: ['ship','delivery','deliver','dhaka'], r: "We're based in Dhaka. Delivery areas and timelines will be shared closer to launch — I can connect you to the team for specifics." },
     { k: ['price','cost','koto','taka','how much'], r: "Pricing for Drop 01 will be announced at launch. Join the early-access list on our <a href='contact.html'>Contact page</a> so you don't miss it." },
-    { k: ['human','whatsapp','real person','agent','talk'], r: "Of course — <a href='https://wa.me/8801997307069?text=Hi%20Dawn%20Era!' target='_blank' rel='noopener'>tap here to chat with us directly on WhatsApp</a>." },
+    { k: ['human','whatsapp','real person','agent','talk'], r: "Of course — <a href='" + DawnApp.buildWaLink('Hi Dawn Era!') + "' target='_blank' rel='noopener'>tap here to chat with us directly on WhatsApp</a>." },
     { k: ['story','about','brand','dawn era'], r: "Dawn Era is streetwear for the hour between night and morning — read the full story <a href='story.html'>here</a>." }
   ];
-  var FALLBACK = "I'm still learning that one! For anything specific, <a href='https://wa.me/8801997307069?text=Hi%20Dawn%20Era!' target='_blank' rel='noopener'>our team's happy to help directly on WhatsApp</a>.";
+  var FALLBACK = "I'm still learning that one! For anything specific, <a href='" + DawnApp.buildWaLink('Hi Dawn Era!') + "' target='_blank' rel='noopener'>our team's happy to help directly on WhatsApp</a>.";
   var QUICK_INITIAL = ["When's Drop 01?", "How do I order?", "Sizing help", "Talk to a human"];
 
   var btn = document.getElementById('aiChatBtn');
@@ -62,23 +63,39 @@
     respond(text);
   }
 
+  var chatRelease = null;
+  function closeChat() {
+    if (!win.classList.contains('is-open')) return;
+    win.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    if (chatRelease) { chatRelease(); chatRelease = null; }
+    DawnApp.popModal(closeChat);
+  }
+
   btn.addEventListener('click', function () {
     var isOpen = win.classList.toggle('is-open');
     btn.setAttribute('aria-expanded', isOpen);
-    if (isOpen && !started) {
-      started = true;
-      setTimeout(function () {
-        addMsg("Hi! I'm the Dawn Era Assistant. Ask me about Drop 01, sizing, shipping, or how to order.", 'bot');
-        setQuick(QUICK_INITIAL);
-      }, 350);
+    if (isOpen) {
+      chatRelease = DawnApp.trapFocus(win, input); // focus goes to the message input, not the close button
+      DawnApp.pushModal(closeChat);
+      if (!started) {
+        started = true;
+        setTimeout(function () {
+          addMsg("Hi! I'm the Dawn Era Assistant. Ask me about Drop 01, sizing, shipping, or how to order.", 'bot');
+          setQuick(QUICK_INITIAL);
+        }, 350);
+      }
+    } else if (chatRelease) {
+      chatRelease(); chatRelease = null;
+      DawnApp.popModal(closeChat);
     }
-    if (isOpen) input.focus();
   });
-  closeBtn.addEventListener('click', function () { win.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); });
+  closeBtn.addEventListener('click', closeChat);
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var v = input.value; input.value = '';
     handleUserMessage(v);
   });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { win.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); } });
+  // Escape is handled centrally by app.js's shared modal stack (closeChat is
+  // pushed/popped above), so no separate listener is needed here.
 })();

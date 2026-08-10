@@ -188,7 +188,15 @@ img, svg { max-width: 100%; height: auto; display: block; }
   .nav__links a { display: block; padding: 14px 4px; font-size: 14px; }
 }
 @media (min-width: 860px) {
-  .nav__links { display: flex !important; max-height: none !important; opacity: 1 !important; }
+  /* Specificity note: .nav__links.is-open (used under 860px) is 0-2-0.
+     A bare ".nav__links" here is only 0-1-0 and would lose to a lingering
+     .is-open class if the viewport crosses 860px while the mobile menu is
+     still open (e.g. rotating a tablet, or resizing the window) — that's
+     why this previously needed !important. Scoping through the parent
+     (".nav .nav__links") raises this rule to the same 0-2-0 specificity,
+     so normal cascade order (this block comes after the mobile one) wins
+     without needing !important. */
+  .nav .nav__links { display: flex; max-height: none; opacity: 1; }
 }
 
 /* ---------- Hero (home) ---------- */

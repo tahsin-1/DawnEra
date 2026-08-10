@@ -81,39 +81,39 @@
   </div>
   <div class="drop__grid">
     <div class="drop-card reveal" style="transition-delay:0s" data-product="hoodie">
-      <button class="drop-card__wish" aria-label="Add to wishlist" onclick="toggleWishlist('hoodie', this)">♡</button>
-      <div class="drop-card__top" onclick="openQuickView('hoodie')">
+      <button class="drop-card__wish" aria-label="Add to wishlist">♡</button>
+      <div class="drop-card__top">
         <p class="drop-card__num mono">01</p>
         <p class="drop-card__name">The hoodie</p>
         <p class="drop-card__status mono">Coming soon</p>
       </div>
       <div class="drop-card__row">
         <select class="drop-card__size" aria-label="Select size"><option>S</option><option>M</option><option selected>L</option><option>XL</option></select>
-        <button class="drop-card__add" onclick="addToCart('hoodie', this)">Add</button>
+        <button class="drop-card__add">Add</button>
       </div>
     </div>
     <div class="drop-card reveal" style="transition-delay:0.1s" data-product="tee">
-      <button class="drop-card__wish" aria-label="Add to wishlist" onclick="toggleWishlist('tee', this)">♡</button>
-      <div class="drop-card__top" onclick="openQuickView('tee')">
+      <button class="drop-card__wish" aria-label="Add to wishlist">♡</button>
+      <div class="drop-card__top">
         <p class="drop-card__num mono">02</p>
         <p class="drop-card__name">The tee</p>
         <p class="drop-card__status mono">Coming soon</p>
       </div>
       <div class="drop-card__row">
         <select class="drop-card__size" aria-label="Select size"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
-        <button class="drop-card__add" onclick="addToCart('tee', this)">Add</button>
+        <button class="drop-card__add">Add</button>
       </div>
     </div>
     <div class="drop-card reveal" style="transition-delay:0.2s" data-product="cap">
-      <button class="drop-card__wish" aria-label="Add to wishlist" onclick="toggleWishlist('cap', this)">♡</button>
-      <div class="drop-card__top" onclick="openQuickView('cap')">
+      <button class="drop-card__wish" aria-label="Add to wishlist">♡</button>
+      <div class="drop-card__top">
         <p class="drop-card__num mono">03</p>
         <p class="drop-card__name">The cap</p>
         <p class="drop-card__status mono">Coming soon</p>
       </div>
       <div class="drop-card__row">
         <select class="drop-card__size" aria-label="Select size"><option selected>One size</option></select>
-        <button class="drop-card__add" onclick="addToCart('cap', this)">Add</button>
+        <button class="drop-card__add">Add</button>
       </div>
     </div>
   </div>
@@ -124,7 +124,7 @@
 
 <section class="story" id="story">
   <div class="story__inner reveal">
-    <p class="story__eyebrow mono">The idea</p>
+    <h2 class="story__eyebrow mono">The idea</h2>
     <p class="story__text">Dawn Era isn't about waiting for good things to happen. It's for the ones already moving while the city's still quiet.</p>
     <a href="story.html" class="story__link mono">Read the full story →</a>
   </div>
@@ -151,7 +151,7 @@
   <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--dawn-cream)"><path d="M12 2 L14 9 L21 12 L14 15 L12 22 L10 15 L3 12 L10 9 Z"/></svg>
 </button>
 
-<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-label="Dawn Era Assistant chat">
+<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-modal="true" aria-label="Dawn Era Assistant chat">
   <div class="ai-chat__header">
     <div class="ai-chat__header-info">
       <div class="ai-chat__avatar">✦</div>
@@ -171,7 +171,7 @@
 </div>
 
 <div class="cw-backdrop" id="cwBackdrop"></div>
-<div class="cw-drawer" id="cwDrawer" role="dialog" aria-label="Cart and wishlist">
+<div class="cw-drawer" id="cwDrawer" role="dialog" aria-modal="true" aria-label="Cart and wishlist">
   <div class="cw-drawer__head">
     <div class="cw-tabs">
       <button class="cw-tab is-active display" data-tab="cart">Cart</button>
@@ -183,7 +183,7 @@
 </div>
 
 <div class="qv-backdrop" id="qvBackdrop">
-  <div class="qv-modal">
+  <div class="qv-modal" role="dialog" aria-modal="true" aria-label="Quick view">
     <div class="qv-handle"></div>
     <button class="qv-close" id="qvClose" aria-label="Close">✕</button>
     <div class="qv-image"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="22" r="14" fill="var(--dawn-gold)" opacity="0.4"/><circle cx="20" cy="22" r="9" fill="var(--dawn-coral)" opacity="0.4"/></svg></div>
@@ -198,171 +198,16 @@
 </div>
 
 <script src="assets/js/storage.js"></script>
+<script src="assets/js/app.js"></script>
 <script>
-(function () {
-  var root = document.documentElement;
-  root.classList.add('js-ready');
-
-  var PRODUCTS = {
+DawnApp.init({
+  products: {
     hoodie: { name: 'The Hoodie', category: 'Outerwear', sizes: ['S','M','L','XL'] },
     tee: { name: 'The Tee', category: 'Tops', sizes: ['S','M','L','XL'] },
     cap: { name: 'The Cap', category: 'Accessories', sizes: ['One size'] }
-  };
-
-  /* Loader */
-  window.addEventListener('load', function () {
-    setTimeout(function () { document.getElementById('loader').classList.add('is-hidden'); }, 500);
-  });
-
-  /* Reveal on scroll */
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var reveals = document.querySelectorAll('.reveal');
-  if (prefersReduced || !('IntersectionObserver' in window)) {
-    reveals.forEach(function (el) { el.classList.add('is-visible'); });
-  } else {
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.15 });
-    reveals.forEach(function (el) { obs.observe(el); });
   }
-
-  /* Scroll progress + back to top */
-  var progressBar = document.getElementById('scrollProgress');
-  var backToTop = document.getElementById('backToTop');
-  window.addEventListener('scroll', function () {
-    var h = document.documentElement;
-    var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-    progressBar.style.width = scrolled + '%';
-    if (h.scrollTop > 500) { backToTop.classList.add('is-visible'); } else { backToTop.classList.remove('is-visible'); }
-  });
-  backToTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' }); });
-
-  /* ---- Theme switcher ---- */
-  var themeToggle = document.getElementById('themeToggle');
-  var themePanel = document.getElementById('themePanel');
-  var themeOpts = document.querySelectorAll('.theme-opt');
-  function applyTheme(name) {
-    if (name === 'light') { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', name); }
-    DawnStorage.setTheme(name);
-    themeOpts.forEach(function (o) { o.classList.toggle('is-active', o.getAttribute('data-theme') === name); });
-  }
-  var savedTheme = 'light';
-  savedTheme = DawnStorage.getTheme();
-  applyTheme(savedTheme);
-
-  themeToggle.addEventListener('click', function () {
-    var open = themePanel.classList.toggle('is-open');
-    themeToggle.setAttribute('aria-expanded', open);
-  });
-  themeOpts.forEach(function (opt) {
-    opt.addEventListener('click', function () { applyTheme(opt.getAttribute('data-theme')); themePanel.classList.remove('is-open'); });
-  });
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('.theme-switcher')) themePanel.classList.remove('is-open');
-  });
-
-  /* ---- Cart + Wishlist ---- */
-  function getList(key) { return DawnStorage.get(key); }
-  function setList(key, list) { DawnStorage.set(key, list); renderCounts(); renderDrawer(); }
-  function renderCounts() {
-    document.getElementById('cartCount').textContent = getList('dawnera_cart').length;
-    document.getElementById('wishCount').textContent = getList('dawnera_wishlist').length;
-  }
-
-  window.addToCart = function (id, btnEl) {
-    var p = PRODUCTS[id];
-    var size = btnEl.closest('.drop-card, .qv-modal').querySelector('select').value;
-    var cart = getList('dawnera_cart');
-    cart.push({ id: id, name: p.name, size: size });
-    setList('dawnera_cart', cart);
-    var old = btnEl.textContent;
-    btnEl.textContent = 'Added ✓';
-    setTimeout(function () { btnEl.textContent = old; }, 1100);
-    openDrawer('cart');
-  };
-
-  window.toggleWishlist = function (id, btnEl) {
-    var p = PRODUCTS[id];
-    var wish = getList('dawnera_wishlist');
-    var idx = wish.findIndex(function (w) { return w.id === id; });
-    if (idx > -1) { wish.splice(idx, 1); btnEl.classList.remove('is-active'); btnEl.textContent = '♡'; }
-    else { wish.push({ id: id, name: p.name }); btnEl.classList.add('is-active'); btnEl.textContent = '♥'; }
-    setList('dawnera_wishlist', wish);
-  };
-
-  function renderDrawer() {
-    var activeTab = document.querySelector('.cw-tab.is-active').getAttribute('data-tab');
-    var itemsEl = document.getElementById('cwItems');
-    var list = getList(activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist');
-    if (list.length === 0) {
-      itemsEl.innerHTML = '<p class="cw-empty">' + (activeTab === 'cart' ? 'Your cart is empty.' : 'Your wishlist is empty.') + '</p>';
-      return;
-    }
-    itemsEl.innerHTML = list.map(function (item, i) {
-      var meta = activeTab === 'cart' ? ('Size ' + item.size) : 'Saved for later';
-      return '<div class="cw-item"><div><p class="cw-item__name">' + item.name + '</p><p class="cw-item__meta">' + meta + '</p></div><button class="cw-item__remove" data-idx="' + i + '" aria-label="Remove">✕</button></div>';
-    }).join('');
-    itemsEl.querySelectorAll('.cw-item__remove').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var key = activeTab === 'cart' ? 'dawnera_cart' : 'dawnera_wishlist';
-        var arr = getList(key);
-        arr.splice(parseInt(btn.getAttribute('data-idx'), 10), 1);
-        setList(key, arr);
-      });
-    });
-  }
-
-  var cwDrawer = document.getElementById('cwDrawer');
-  var cwBackdrop = document.getElementById('cwBackdrop');
-  function openDrawer(tab) {
-    document.querySelectorAll('.cw-tab').forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-tab') === tab); });
-    renderDrawer();
-    cwDrawer.classList.add('is-open'); cwBackdrop.classList.add('is-open');
-  }
-  function closeDrawer() { cwDrawer.classList.remove('is-open'); cwBackdrop.classList.remove('is-open'); }
-  document.getElementById('cartToggle').addEventListener('click', function () { openDrawer('cart'); });
-  document.getElementById('wishToggle').addEventListener('click', function () { openDrawer('wishlist'); });
-  document.getElementById('cwClose').addEventListener('click', closeDrawer);
-  cwBackdrop.addEventListener('click', closeDrawer);
-  document.querySelectorAll('.cw-tab').forEach(function (tab) {
-    tab.addEventListener('click', function () { openDrawer(tab.getAttribute('data-tab')); });
-  });
-
-  /* ---- Quick view ---- */
-  var qvBackdrop = document.getElementById('qvBackdrop');
-  var currentQvId = null;
-  window.openQuickView = function (id) {
-    var p = PRODUCTS[id];
-    currentQvId = id;
-    document.getElementById('qvCat').textContent = p.category;
-    document.getElementById('qvName').textContent = p.name;
-    var sizeSel = document.getElementById('qvSize');
-    sizeSel.innerHTML = p.sizes.map(function (s) { return '<option>' + s + '</option>'; }).join('');
-    qvBackdrop.classList.add('is-open');
-  };
-  document.getElementById('qvClose').addEventListener('click', function () { qvBackdrop.classList.remove('is-open'); });
-  qvBackdrop.addEventListener('click', function (e) { if (e.target === qvBackdrop) qvBackdrop.classList.remove('is-open'); });
-  document.getElementById('qvAdd').addEventListener('click', function () {
-    if (currentQvId) { addToCart(currentQvId, this); }
-    setTimeout(function () { qvBackdrop.classList.remove('is-open'); }, 500);
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { closeDrawer(); qvBackdrop.classList.remove('is-open'); themePanel.classList.remove('is-open'); }
-  });
-
-  /* Restore wishlist heart states */
-  var savedWish = getList('dawnera_wishlist');
-  savedWish.forEach(function (w) {
-    var btn = document.querySelector('.drop-card[data-product="' + w.id + '"] .drop-card__wish');
-    if (btn) { btn.classList.add('is-active'); btn.textContent = '♥'; }
-  });
-
-  renderCounts();
-})();
+});
 </script>
-
-
 
 <script src="assets/js/nav.js"></script>
 <script src="assets/js/chat-widget.js"></script>
