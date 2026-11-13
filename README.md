@@ -9,6 +9,12 @@ Dawn Era is a frontend project for my streetwear brand. It brings product browsi
 
 **Status:** frontend prototype with products marked "Coming soon." The repository contains static pages and browser-side JavaScript; it does not include a payment processor, account system, or order-management backend.
 
+## My role & AI assistance
+
+I provided the brand/project idea, UI direction, layout instructions, and decisions about which features to include or leave out. Claude generated the implementation code from that guidance.
+
+This is an AI-assisted frontend prototype. My contribution is project direction and requirements definition; the code is not presented as independently hand-written work. Understanding, modifying, and debugging the implementation independently are ongoing learning goals.
+
 ## Explore the project
 
 1. Open the home page to see the brand introduction and featured products.
